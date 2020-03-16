@@ -14,7 +14,7 @@
           <Input class="search-input" v-model="filters.singleSku" />
         </FormItem>
         <FormItem label="仓库">
-          <Select v-model="filters.warehouseId" style="width:200px" clearable="true">
+          <Select v-model="filters.warehouseId" style="width:200px" :clearable="true">
             <Option
               v-for="item in warehouseList"
               :value="item.warehouseId"
