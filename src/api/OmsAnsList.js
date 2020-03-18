@@ -3,10 +3,10 @@ import store from '@/store'
 
 var token = store.state.user.token;
 
-// SingleSalesAnalysis 销售报表
-export const getSales = (data) => {
+// OmsAnsList
+export const getList = (data) => {
   return axios.request({
-    url: 'api/SingleSalesAnalysis/GetList/',
+    url: 'api/OmsAnsList/GetList',
     headers: {
       Authorization: "Bearer " + token,
     },
@@ -15,28 +15,25 @@ export const getSales = (data) => {
   })
 }
 
-//BnsUsBaseInventory 美国仓仓底维护
 
-// 获取列表
-export const getUsBase = (data) => {
+// 添加
+export const Add = (codes) => {
   return axios.request({
-    url: 'api/BnsUsBaseInventory/GetList/',
+    url: 'api/OmsAnsList/AddRecivingCode?codes=' + codes,
     headers: {
       Authorization: "Bearer " + token
     },
     method: 'POST',
-    data,
   })
 }
 
 // 获取单个数据
-export const getUsBaseInfo = (data) => {
+export const getDetails = (id) => {
   return axios.request({
-    url: 'api/BnsUsBaseInventory/Get',
+    url: 'api/OmsAnsList/GetDetails?id=' + id,
     headers: {
       Authorization: "Bearer " + token
     },
     method: 'POST',
-    data,
   })
 }

@@ -1,33 +1,37 @@
 <template>
   <div class="content-main">
     <div class="search-con search-con-top">
-      <Form ref="formInline" label-position="right" :label-width="60" inline>
-        <FormItem label="时间">
-          <DatePicker
-            v-model="filters.datetimePoint"
-            type="datetime"
-            placeholder="请选择查询日期"
-            style="width: 200px"
-          ></DatePicker>
-        </FormItem>
-        <FormItem label="sku">
-          <Input class="search-input" v-model="filters.singleSku" />
-        </FormItem>
-        <FormItem label="仓库">
-          <Select v-model="filters.warehouseId" style="width:200px" :clearable="true">
-            <Option
-              v-for="item in warehouseList"
-              :value="item.warehouseId"
-              :key="item.warehouseId"
-            >{{ item.warehouseDesc }}</Option>
-          </Select>
-        </FormItem>
-        <FormItem>
-          <Button @click="loadData()" class="search-btn" type="primary">
-            <Icon type="search" />&nbsp;&nbsp;搜索
-          </Button>
-        </FormItem>
-      </Form>
+      <Row>
+        <Col :span="20">
+          <Form ref="formInline" label-position="right" :label-width="60" inline>
+            <FormItem label="sku">
+              <Input class="search-input" v-model="filters.productSku" />
+            </FormItem>
+            <FormItem label="仓库">
+              <Select v-model="filters.warehouseId" style="width:200px" :clearable="true">
+                <Option
+                  v-for="item in warehouseList"
+                  :value="item.warehouseId"
+                  :key="item.warehouseId"
+                >{{ item.warehouseDesc }}</Option>
+              </Select>
+            </FormItem>
+            <FormItem>
+              <Button @click="loadData()" class="search-btn" type="primary">搜索</Button>
+            </FormItem>
+          </Form>
+        </Col>
+        <Col :span="4">
+          <Upload
+            action="api/BnsUsBaseInventory/import/"
+            name="excelFile"
+            :headers="upHeaders"
+            accept=".xls, .xlsx"
+          >
+            <Button :loading="uploadLoading">导入库存表</Button>
+          </Upload>
+        </Col>
+      </Row>
     </div>
     <Table ref="tables" height="700" :data="listData" v-bind:columns="listColums" stripe></Table>
     <div style="margin: 10px;overflow: hidden">
@@ -47,61 +51,46 @@
 </template>
 
 <script>
-import { getSales } from "@/api/Analysis";
+import { getUsBase as getList } from "@/api/Analysis";
 import { getList as getWareList } from "@/api/ECWarehouse";
 import { DateUtil } from "@/libs/dateUtil";
+import store from "@/store";
 export default {
   data() {
     return {
       listColums: [
         {
-          title: "编码",
-          key: "rowNumber"
+          title: "数量",
+          key: "qty"
         },
         {
-          title: "仓库",
-          key: "warehouseDesc"
+          title: "标签",
+          key: "tagType"
         },
         {
           title: "sku",
-          key: "singleSku"
-        },
-        {
-          title: "近三天销售额",
-          key: "threeDaysSales"
-        },
-        {
-          title: "近七天销售额",
-          key: "sevenDaysSales"
-        },
-        {
-          title: "近十四天销售额",
-          key: "forteenDaysSales"
-        },
-        {
-          title: "近三十天销售额",
-          key: "thirtyDaysSales"
+          key: "productSku"
         }
       ],
       listData: [],
       filters: {
-        datetimePoint: "",
-        singleSku: "",
+        productSku: "",
         warehouseId: ""
       },
       pageTotal: 1,
       pageCurrent: 1,
       pageSize: 10,
-      warehouseList: []
+      warehouseList: [],
+      uploadLoading: false,
+      upHeaders: {
+        Authorization: "Bearer " + store.state.user.token
+      }
     };
   },
   methods: {
     loadData() {
       let _this = this;
       if (!_this.pageCurrent) _this.pageCurrent = 1;
-      if (_this.filters.datetimePoint == "") {
-        _this.filters.datetimePoint = DateUtil.now();
-      }
       let filtersquery = [];
       let filtersSku = {};
       let filtersWare = {};
@@ -124,14 +113,11 @@ export default {
         filtersquery.push(filtersWare);
       }
       let data = {
-        pageNum: _this.pageCurrent,
-        pageSize: _this.pageSize,
-        datetimePoint: _this.filters.datetimePoint,
         order: {},
         query: filtersquery,
         navPropertyPaths: []
       };
-      getSales(data)
+      getList(data)
         .then(res => {
           console.log(res);
           if (res.data.code == 200) {

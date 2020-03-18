@@ -7,5 +7,7 @@ export default {
   resourceManage: 'ResourcenManage',
   companyManage: 'CompanyManage',
   taskManage: 'TaskManage',
-  salesAnalysis_page: 'SalesAnalysis'
+  salesAnalysis_page: 'SalesAnalysis',
+  BnsUsBaseInventory_page: 'BnsUsBaseInventory',
+  omsAnsList_page: 'OmsAnalysis'
 }

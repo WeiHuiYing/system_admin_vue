@@ -140,6 +140,40 @@ export default [{
       component: () => import('@/view/SalesAnalysis/List.vue')
     }]
   },
+  {
+    path: '/BnsUsBaseInventory',
+    name: 'BnsUsBaseInventory',
+    component: Main,
+    meta: {
+      hideInBread: true
+    },
+    children: [{
+      path: 'BnsUsBaseInventory_page',
+      name: 'BnsUsBaseInventory_page',
+      meta: {
+        icon: 'md-grid',
+        title: '美国仓仓底维护'
+      },
+      component: () => import('@/view/BnsUsBaseInventory/List.vue')
+    }]
+  },
+  {
+    path: '/omsAnsList',
+    name: 'omsAnsList',
+    component: Main,
+    meta: {
+      hideInBread: true
+    },
+    children: [{
+      path: 'omsAnsList_page',
+      name: 'omsAnsList_page',
+      meta: {
+        icon: 'md-grid',
+        title: 'Oms报表'
+      },
+      component: () => import('@/view/OmsAnsList/List.vue')
+    }]
+  },
 
   {
     path: '/argu',

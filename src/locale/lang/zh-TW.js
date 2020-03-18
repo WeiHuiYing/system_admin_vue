@@ -7,5 +7,7 @@ export default {
   resourceManage: '資源資訊',
   companyManage: '組織結構',
   taskManage: '任務管理',
-  salesAnalysis_page: '銷售報表'
+  salesAnalysis_page: '銷售報表',
+  BnsUsBaseInventory_page: '美國倉倉底維護',
+  omsAnsList_page: 'Oms報表'
 }

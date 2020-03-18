@@ -7,5 +7,7 @@ export default {
   resourceManage: '资源信息',
   companyManage: '组织结构',
   taskManage: '任务管理',
-  salesAnalysis_page: '销售报表'
+  salesAnalysis_page: '销售报表',
+  BnsUsBaseInventory_page: '美国仓仓底维护',
+  omsAnsList_page: 'Oms报表'
 }
