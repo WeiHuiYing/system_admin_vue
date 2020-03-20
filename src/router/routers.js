@@ -174,6 +174,40 @@ export default [{
       component: () => import('@/view/OmsAnsList/List.vue')
     }]
   },
+  {
+    path: '/UsTagTypeInventory',
+    name: 'UsTagTypeInventory',
+    component: Main,
+    meta: {
+      hideInBread: true
+    },
+    children: [{
+      path: 'UsTagTypeInventory_page',
+      name: 'UsTagTypeInventory_page',
+      meta: {
+        icon: 'md-grid',
+        title: '美国仓类型报表'
+      },
+      component: () => import('@/view/UsTagTypeInventory/List.vue')
+    }]
+  },
+  {
+    path: '/ECShipBatch',
+    name: 'ECShipBatch',
+    component: Main,
+    meta: {
+      hideInBread: true
+    },
+    children: [{
+      path: 'ECShipBatch_page',
+      name: 'ECShipBatch_page',
+      meta: {
+        icon: 'md-grid',
+        title: '头程出库单'
+      },
+      component: () => import('@/view/ECShipBatch/List.vue')
+    }]
+  },
 
   {
     path: '/argu',

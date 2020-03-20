@@ -2,30 +2,8 @@
   <div class="content-main">
     <div class="search-con search-con-top">
       <Form ref="formInline" label-position="right" :label-width="60" inline>
-        <FormItem label="时间">
-          <DatePicker
-            v-model="filters.datetimePoint"
-            type="datetime"
-            placeholder="请选择查询日期"
-            style="width: 200px"
-          ></DatePicker>
-        </FormItem>
-        <FormItem label="sku">
-          <Input class="search-input" v-model="filters.singleSku" />
-        </FormItem>
-        <FormItem label="仓库">
-          <Select
-            v-model="filters.warehouseId"
-            style="width:200px"
-            :clearable="true"
-          >
-            <Option
-              v-for="item in warehouseList"
-              :value="item.warehouseId"
-              :key="item.warehouseId"
-              >{{ item.warehouseDesc }}</Option
-            >
-          </Select>
+        <FormItem label="Sku">
+          <Input class="search-input" v-model="filters.productSku" />
         </FormItem>
         <FormItem>
           <Button @click="loadData()" class="search-btn" type="primary">
@@ -59,7 +37,7 @@
 </template>
 
 <script>
-import { getSales } from "@/api/Analysis";
+import { getUsInventoryList as getList } from "@/api/Analysis";
 import { getList as getWareList } from "@/api/ECWarehouse";
 import { DateUtil } from "@/libs/dateUtil";
 export default {
@@ -71,40 +49,25 @@ export default {
           key: "rowNumber"
         },
         {
-          title: "仓库",
-          key: "warehouseDesc"
+          title: "产品SKU",
+          key: "productSku"
         },
         {
-          title: "sku",
-          key: "singleSku"
+          title: "类型",
+          key: "tagType"
         },
         {
-          title: "近三天销售额",
-          key: "threeDaysSales"
-        },
-        {
-          title: "近七天销售额",
-          key: "sevenDaysSales"
-        },
-        {
-          title: "近十四天销售额",
-          key: "forteenDaysSales"
-        },
-        {
-          title: "近三十天销售额",
-          key: "thirtyDaysSales"
+          title: "数量",
+          key: "qty"
         }
       ],
       listData: [],
       filters: {
-        datetimePoint: "",
-        singleSku: "",
-        warehouseId: ""
+        singleSku: ""
       },
       pageTotal: 1,
       pageCurrent: 1,
       pageSize: 10,
-      warehouseList: [],
       tableLoading: false
     };
   },
@@ -112,40 +75,25 @@ export default {
     loadData() {
       let _this = this;
       if (!_this.pageCurrent) _this.pageCurrent = 1;
-      if (_this.filters.datetimePoint == "") {
-        _this.filters.datetimePoint = DateUtil.now();
-      }
       let filtersquery = [];
       let filtersSku = {};
-      let filtersWare = {};
-      if (!_this.filters.singleSku == "") {
+      if (!_this.filters.productSku == "") {
         filtersSku = {
-          key: "singleSku",
+          key: "productSku",
           binaryop: "eq",
-          value: _this.filters.singleSku,
+          value: _this.filters.productSku,
           andorop: "and"
         };
         filtersquery.push(filtersSku);
       }
-      if (!_this.filters.warehouseId == "") {
-        filtersWare = {
-          key: "warehouseId",
-          binaryop: "eq",
-          value: _this.filters.warehouseId,
-          andorop: "and"
-        };
-        filtersquery.push(filtersWare);
-      }
       let data = {
         pageNum: _this.pageCurrent,
         pageSize: _this.pageSize,
-        datetimePoint: _this.filters.datetimePoint,
         order: {},
-        query: filtersquery,
-        navPropertyPaths: []
+        query: filtersquery
       };
       _this.tableLoading = true;
-      getSales(data)
+      getList(data)
         .then(res => {
           console.log(res);
           _this.tableLoading = false;
@@ -165,26 +113,6 @@ export default {
           console.log(err);
         });
     },
-    loadWare() {
-      let _this = this;
-      let data = {};
-      getWareList(data)
-        .then(res => {
-          console.log(res);
-          if (res.data.code == 200) {
-            _this.warehouseList = res.data.data;
-          } else {
-            this.$Message.error({
-              content: res.data.msg,
-              duration: 10,
-              closable: true
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
     changePage(val) {
       console.log(val);
       let _this = this;
@@ -199,7 +127,6 @@ export default {
   },
   mounted() {
     this.loadData();
-    this.loadWare();
   }
 };
 </script>

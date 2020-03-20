@@ -12,9 +12,9 @@ const resolve = dir => {
 // 例如：https://www.foobar.com/my-app/
 // 需要将它改为'/my-app/'
 // iview-admin线上演示打包路径： https://file.iviewui.com/admin-dist/
-const BASE_URL = process.env.NODE_ENV === 'production'
-  ? '/'
-  : '/'
+const BASE_URL = process.env.NODE_ENV === 'production' ?
+  '/' :
+  '/'
 
 module.exports = {
   assetsDir: '.',
@@ -41,7 +41,8 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
     port: 8091,
-    hot:true,
+    hot: true,
     proxy: 'http://192.168.1.46:8816/'
+    // proxy: 'http://howard.ngrok.bitcoding.top/'
   }
 }

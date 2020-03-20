@@ -17,13 +17,14 @@ export const getList = (data) => {
 
 
 // 添加
-export const Add = (codes) => {
+export const Add = (data) => {
   return axios.request({
-    url: 'api/OmsAnsList/AddRecivingCode?codes=' + codes,
+    url: 'api/OmsAnsList/AddRecivingCode',
     headers: {
       Authorization: "Bearer " + token
     },
     method: 'POST',
+    data
   })
 }
 

@@ -5,7 +5,7 @@
         <Col :span="20">
           <Form ref="formInline" label-position="right" :label-width="60" inline>
             <FormItem label="sku">
-              <Input class="search-input" v-model="filters.productSku" />
+              <Input class="search-input" v-model="filters.singleSku" />
             </FormItem>
             <FormItem label="仓库">
               <Select v-model="filters.warehouseId" style="width:200px" :clearable="true">
@@ -27,6 +27,8 @@
             name="excelFile"
             :headers="upHeaders"
             accept=".xls, .xlsx"
+            :show-upload-list="false"
+            :on-success="handleSuccess"
           >
             <Button :loading="uploadLoading">导入库存表</Button>
           </Upload>
@@ -113,9 +115,7 @@ export default {
         filtersquery.push(filtersWare);
       }
       let data = {
-        order: {},
-        query: filtersquery,
-        navPropertyPaths: []
+        query: filtersquery
       };
       getList(data)
         .then(res => {
@@ -165,6 +165,22 @@ export default {
       let _this = this;
       _this.pageSize = size;
       _this.loadData();
+    },
+    handleSuccess(response, file, fileList) {
+      if (response.code == 200) {
+        this.loadData();
+        this.$Message.info({
+          content: "上传成功",
+          duration: 10,
+          closable: true
+        });
+      } else {
+        this.$Message.error({
+          content: response.msg,
+          duration: 10,
+          closable: true
+        });
+      }
     }
   },
   mounted() {
@@ -174,5 +190,4 @@ export default {
 };
 </script>
 
-<style lang="less">
-</style>
+<style lang="less"></style>

@@ -9,5 +9,7 @@ export default {
   taskManage: 'TaskManage',
   salesAnalysis_page: 'SalesAnalysis',
   BnsUsBaseInventory_page: 'BnsUsBaseInventory',
-  omsAnsList_page: 'OmsAnalysis'
+  omsAnsList_page: 'OmsAnalysis',
+  UsTagTypeInventory_page: 'UsTagTypeInventory',
+  ECShipBatch_page: 'ECShipBatch',
 }

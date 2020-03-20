@@ -1,45 +1,82 @@
 <template>
   <div class="content-main">
-    <div class="search-con search-con-top">
-      <Form ref="formInline" label-position="right" :label-width="60" inline>
+    <Card>
+      <div class="search-con search-con-top">
+        <Row>
+          <Col :span="20">
+            <Form ref="formInline" label-position="right" :label-width="60" inline>
+              <FormItem label="入库单号">
+                <Input class="search-input" v-model="filters.omsReceivingCode" />
+              </FormItem>
+              <FormItem>
+                <Button @click="loadData()" class="search-btn" type="primary">搜索</Button>
+              </FormItem>
+            </Form>
+          </Col>
+          <Col :span="4">
+            <Button class="search-btn" type="success" @click="handleAdd">
+              <Icon type="md-add" />&nbsp;&nbsp;新增
+            </Button>
+          </Col>
+        </Row>
+      </div>
+      <Table
+        ref="tables"
+        height="700"
+        :data="listData"
+        v-bind:columns="listColums"
+        stripe
+        :loading="tableLoading"
+      ></Table>
+      <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;">
+          <Page
+            :total="pageTotal"
+            :current="pageCurrent"
+            @on-change="changePage"
+            @on-page-size-change="changePageSize"
+            show-total
+            show-elevator
+            show-sizer
+          ></Page>
+        </div>
+      </div>
+    </Card>
+    <Modal
+      title="添加"
+      :mask-closable="false"
+      v-model="modelAdd"
+      width="700"
+      scrollable
+      @on-ok="addCode"
+    >
+      <Form label-position="right" :label-width="60">
         <FormItem label="入库单号">
-          <Input class="search-input" v-model="filters.omsReceivingCode" />
-        </FormItem>
-        <FormItem>
-          <Button @click="loadData()" class="search-btn" type="primary"
-            >搜索</Button
-          >
+          <Input class="search-input" placeholder="请输入" v-model="addData" />
         </FormItem>
       </Form>
-    </div>
-    <Table
-      ref="tables"
-      height="700"
-      :data="listData"
-      v-bind:columns="listColums"
-      stripe
-      :loading="tableLoading"
-    ></Table>
-    <div style="margin: 10px;overflow: hidden">
-      <div style="float: right;">
-        <Page
-          :total="pageTotal"
-          :current="pageCurrent"
-          @on-change="changePage"
-          @on-page-size-change="changePageSize"
-          show-total
-          show-elevator
-          show-sizer
-        ></Page>
-      </div>
-    </div>
+      <div class="mark-warp">输入值请用“,”分隔</div>
+    </Modal>
+    <Modal
+      title="详情"
+      :mask-closable="false"
+      v-model="modelDetils"
+      width="90%"
+      scrollable
+      footer-hide
+    >
+      <Detils ref="detils" :parent="this" :detils-row="detilsRow"></Detils>
+    </Modal>
   </div>
 </template>
 
 <script>
-import { getList, getDetails } from "@/api/OmsAnsList";
+import { getList, Add } from "@/api/OmsAnsList";
 import Detils from "./Detils";
 export default {
+  components: {
+    Detils
+  },
   data() {
     return {
       filters: {
@@ -144,18 +181,27 @@ export default {
           }
         }
       ],
-      detilsRow: {}
+      detilsRow: {},
+      modelDetils: false,
+      modelAdd: false,
+      addData: ""
     };
   },
   methods: {
     loadData() {
       let _this = this;
-      let data = {
-        pageNum: _this.pageCurrent,
-        pageSize: _this.pageSize,
-        order: {},
-        query: []
-      };
+      let filtersquery = [];
+      let filtersCode = {};
+      if (!_this.filters.omsReceivingCode == "") {
+        filtersCode = {
+          key: "omsReceivingCode",
+          binaryop: "eq",
+          value: _this.filters.omsReceivingCode,
+          andorop: "and"
+        };
+        filtersquery.push(filtersCode);
+      }
+      let data = {};
       _this.tableLoading = true;
       getList(data)
         .then(res => {
@@ -176,18 +222,43 @@ export default {
           console.log(err);
         });
     },
-    changePage() {},
-    changePageSize() {},
+    changePage(val) {
+      console.log(val);
+      let _this = this;
+      _this.pageCurrent = val;
+      _this.loadData();
+    },
+    changePageSize(size) {
+      let _this = this;
+      _this.pageSize = size;
+      _this.loadData();
+    },
     viewDetils(params) {
       let _this = this;
-      _this.Row = params.row;
-      getDetails(_this.Row.id)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      console.log(params);
+      _this.detilsRow = {};
+      _this.detilsRow = params.row;
+      _this.modelDetils = true;
+    },
+    handleAdd() {
+      let _this = this;
+      _this.modelAdd = true;
+    },
+    addCode() {
+      let _this = this;
+      if (_this.addData != "") {
+        let reg = new RegExp(/\uff0c/);
+        _this.addData = _this.addData.replace(reg, ",");
+        let data = _this.addData.split(",");
+        Add(data)
+          .then(res => {
+            console.log(res);
+            _this.modelAdd = false;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
   },
   mounted() {

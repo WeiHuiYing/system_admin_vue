@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Form ref="formInline" label-position="right" :model="Row" :rules="rule" :label-width="100">
+    <Form
+      ref="formInline"
+      label-position="right"
+      :model="Row"
+      :rules="rule"
+      :label-width="100"
+    >
       <Row>
         <Col span="24">
           <FormItem label="角色名" prop="roleName">
@@ -18,8 +24,13 @@
       <Row>
         <Col span="24">
           <div style="text-align:center;">
-            <Button @click="parent.modelEdit=false">取消</Button>
-            <Button style="margin-left:20px;" type="primary" @click="save('formInline')">保存</Button>
+            <Button @click="parent.modelEdit = false">取消</Button>
+            <Button
+              style="margin-left:20px;"
+              type="primary"
+              @click="save('formInline')"
+              >保存</Button
+            >
           </div>
         </Col>
       </Row>
@@ -133,4 +144,3 @@ export default {
   mounted() {}
 };
 </script>
-
