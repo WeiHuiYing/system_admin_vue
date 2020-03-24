@@ -9,7 +9,7 @@
           <Input class="search-input" v-model="filters.phone" />
         </FormItem>
         <FormItem>
-          <Button class="search-btn" type="primary">
+          <Button @click="loadData()" class="search-btn" type="primary">
             <Icon type="search" />&nbsp;&nbsp;搜索
           </Button>
         </FormItem>
@@ -17,21 +17,11 @@
     </div>
     <Card>
       <div class="button-top-warp">
-        <Button
-          class="search-btn"
-          type="success"
-          size="small"
-          @click="handleAdd"
-        >
+        <Button class="search-btn" type="success" size="small" @click="handleAdd">
           <Icon type="md-add" />&nbsp;&nbsp;新增
         </Button>
       </div>
-      <Table
-        ref="tables"
-        :data="listData"
-        v-bind:columns="tableColumns1"
-        stripe
-      ></Table>
+      <Table ref="tables" :data="listData" v-bind:columns="tableColumns1" stripe></Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
           <Page
@@ -46,14 +36,7 @@
         </div>
       </div>
     </Card>
-    <Modal
-      title="编辑"
-      :mask-closable="false"
-      v-model="modelEdit"
-      width="800"
-      scrollable
-      footer-hide
-    >
+    <Modal title="编辑" :mask-closable="false" v-model="modelEdit" width="800" scrollable footer-hide>
       <Edit ref="edit" :parent="this" :edit-row="eidtRow"></Edit>
     </Modal>
     <Modal
@@ -64,11 +47,7 @@
       scrollable
       footer-hide
     >
-      <Permission
-        ref="Permission"
-        :parent="this"
-        :edit-row="eidtRow"
-      ></Permission>
+      <Permission ref="Permission" :parent="this" :edit-row="eidtRow"></Permission>
     </Modal>
   </div>
 </template>
@@ -85,7 +64,10 @@ export default {
   },
   data() {
     return {
-      filters: {},
+      filters: {
+        userName: "",
+        phone: ""
+      },
       listData: [],
       pageTotal: 0,
       pageCurrent: 1,
@@ -192,13 +174,31 @@ export default {
       let _this = this;
       if (!_this.pageCurrent) _this.pageCurrent = 1;
       let filtersQuery = [];
-      // let filers
-      // if()
+      let filersName = {};
+      let filersPhone = {};
+      if (_this.filters.userName && _this.filters.userName != "") {
+        filersName = {
+          key: "userName",
+          binaryop: "eq",
+          value: _this.filters.userName,
+          andorop: "and"
+        };
+        filtersQuery.push(filersName);
+      }
+      if (_this.filters.phone && _this.filters.phone != "") {
+        filersPhone = {
+          key: "phone",
+          binaryop: "eq",
+          value: _this.filters.phone,
+          andorop: "and"
+        };
+        filtersQuery.push(filersPhone);
+      }
       let data = {
         pageNum: _this.pageCurrent,
         pageSize: _this.pageSize,
         order: {},
-        query: [],
+        query: filtersQuery,
         navPropertyPaths: ["resUserRoles"]
       };
       getList(data)

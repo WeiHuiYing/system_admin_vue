@@ -19,7 +19,7 @@
           <Icon type="md-add" />&nbsp;&nbsp;新增
         </Button>
       </div>
-      <Table ref="tables" :data="tableData" v-bind:columns="tableColumns" stripe></Table>
+      <Table ref="tables" :data="tableData" :loading="tableLoading" v-bind:columns="tableColumns" stripe></Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
           <Page
@@ -74,7 +74,9 @@ export default {
   data() {
     return {
       tableData: [],
-      filters: {},
+      filters: {
+        roleName:''
+      },
       pageTotal: 0,
       pageCurrent: 1,
       pageSize:10,
@@ -168,24 +170,42 @@ export default {
           }
         }
       ],
+      tableLoading:false,
     };
   },
   computed: {},
   methods: {
     loadData(){
       let _this = this;
+      let filtersQuery = [];
+      let filersRole = {};
+      if (_this.filters.roleName && _this.filters.roleName != "") {
+        filersRole = {
+          key: "roleName",
+          binaryop: "eq",
+          value: _this.filters.roleName,
+          andorop: "and"
+        };
+        filtersQuery.push(filersRole);
+      }
       let data = {
         pageNum: _this.pageCurrent,
         pageSize: _this.pageSize,
         order: {},
-        query: [],
+        query: filtersQuery,
         navPropertyPaths: []
       }
+      _this.tableData = [];
+      _this.tableLoading = true;
       getPage(data).then(res => {
         console.log(res)
+        _this.tableLoading = false;
         const resData = res.data;
         if(resData.code === 200){
-          _this.tableData = resData.data;
+          if(resData.data){
+            _this.tableData = resData.data;
+          }
+          
           _this.pageTotal = resData.count;
         }else{
           this.$Message.error({
@@ -194,7 +214,10 @@ export default {
               closable: true
           });
         }
-      }).catch(res => {console.log(err)})
+      }).catch(res => {
+        _this.tableLoading = false;
+        console.log(err)
+      })
     },
     changePage(page) {
       let _this = this;

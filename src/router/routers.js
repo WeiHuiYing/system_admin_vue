@@ -169,7 +169,7 @@ export default [{
       name: 'omsAnsList_page',
       meta: {
         icon: 'md-grid',
-        title: 'Oms报表'
+        title: 'Oms入库单'
       },
       component: () => import('@/view/OmsAnsList/List.vue')
     }]

@@ -9,7 +9,7 @@ export default {
   taskManage: '任务管理',
   salesAnalysis_page: '销售报表',
   BnsUsBaseInventory_page: '美国仓仓底维护',
-  omsAnsList_page: 'Oms报表',
+  omsAnsList_page: 'Oms入库单',
   UsTagTypeInventory_page: '美国仓类型报表',
   ECShipBatch_page: '头程出库单',
 }
