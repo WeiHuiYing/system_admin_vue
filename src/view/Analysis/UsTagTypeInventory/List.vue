@@ -39,7 +39,6 @@
 <script>
 import { getUsInventoryList as getList } from "@/api/Analysis";
 import { getList as getWareList } from "@/api/ECWarehouse";
-import { DateUtil } from "@/libs/dateUtil";
 export default {
   data() {
     return {

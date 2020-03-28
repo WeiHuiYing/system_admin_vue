@@ -17,10 +17,10 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    /* dev: 'http://howard.ngrok.bitcoding.top/',
-    pro: 'http://howard.ngrok.bitcoding.top/' */
-    dev: 'http://192.168.1.46:8816/',
-    pro: 'http://192.168.1.46:8816/'
+    dev: 'http://howard.ngrok.bitcoding.top/',
+    pro: 'http://howard.ngrok.bitcoding.top/'
+    /* dev: 'http://192.168.1.46:8816/',
+    pro: 'http://192.168.1.46:8816/' */
   },
   /**
    * @description 默认打开的首页的路由name值，默认为home

@@ -12,4 +12,10 @@ export default {
   omsAnsList_page: 'OmsAnalysis',
   UsTagTypeInventory_page: 'UsTagTypeInventory',
   ECShipBatch_page: 'ECShipBatch',
+  WeavingBlock_page: 'WeavingBlock',
+  GetDensity_page: 'WigsSalesAnalysis',
+  SalesTotal_page: 'SalesTotalAnalysis',
+  HairWeftStyleSale_page: 'WeavingBlockSalesRatio',
+  OrderRatio_page: 'SingleOrderVSMultipleOrders ',
+  ChannelLevelSalesCount_page: 'ChannelLevelSalesCount'
 }

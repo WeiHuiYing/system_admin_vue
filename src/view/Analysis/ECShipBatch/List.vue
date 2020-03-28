@@ -1,5 +1,14 @@
 <template>
   <div class="content-main">
+    <div class="search-con search-con-top">
+      <Row>
+        <Col :span="24" style="text-align:right">
+          <Button class="search-btn" type="success" size="small" @click="handleAdd">
+            <Icon type="md-add" />&nbsp;&nbsp;新增
+          </Button>
+        </Col>
+      </Row>
+    </div>
     <Table
       ref="tables"
       height="700"
@@ -21,6 +30,22 @@
         ></Page>
       </div>
     </div>
+
+    <Modal
+      title="添加"
+      :mask-closable="false"
+      v-model="modelAdd"
+      width="700"
+      scrollable
+      @on-ok="addCode"
+    >
+      <Form label-position="right" :label-width="60">
+        <FormItem label="入库单号">
+          <Input class="search-input" placeholder="请输入" v-model="addData" />
+        </FormItem>
+      </Form>
+      <div class="mark-warp">输入值请用“,”分隔</div>
+    </Modal>
     <Modal
       title="详情"
       :mask-closable="false"
@@ -35,7 +60,7 @@
 </template>
 
 <script>
-import { getShipList as getList } from "@/api/Analysis";
+import { getShipList as getList, addShip as Add } from "@/api/Analysis";
 import Detils from "./Detils";
 export default {
   components: {
@@ -103,7 +128,9 @@ export default {
       pageSize: 10,
       tableLoading: false,
       detilsRow: {},
-      modelDetils: false
+      modelDetils: false,
+      modelAdd: false,
+      addData: ""
     };
   },
   methods: {
@@ -133,6 +160,40 @@ export default {
       _this.detilsRow = {};
       _this.detilsRow = params.row;
       _this.modelDetils = true;
+    },
+    handleAdd() {
+      let _this = this;
+      _this.modelAdd = true;
+    },
+    addCode() {
+      let _this = this;
+      if (_this.addData != "") {
+        let reg = new RegExp(/\uff0c/);
+        _this.addData = _this.addData.replace(reg, ",");
+        let data = _this.addData.split(",");
+        Add(data)
+          .then(res => {
+            console.log(res);
+            const resData = res.data;
+            if (resData.code == 200) {
+              _this.modelAdd = false;
+              this.$Message.info({
+                content: resData.msg,
+                duration: 10,
+                closable: true
+              });
+            } else {
+              this.$Message.error({
+                content: resData.msg,
+                duration: 10,
+                closable: true
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     },
     changePage() {},
     changePageSize() {}

@@ -37,7 +37,7 @@
             @on-page-size-change="changePageSize"
             show-total
             show-elevator
-            show-sizer
+            show-size
           ></Page>
         </div>
       </div>
@@ -112,8 +112,7 @@ export default {
                 "Tag",
                 {
                   props: {
-                    color: "primary",
-                    size: "small"
+                    color: "primary"
                   }
                 },
                 stopFlagText
@@ -124,8 +123,7 @@ export default {
                 "Tag",
                 {
                   props: {
-                    color: "error",
-                    size: "small"
+                    color: "error"
                   }
                 },
                 stopFlagText
@@ -148,8 +146,7 @@ export default {
               "Tag",
               {
                 props: {
-                  color: "primary",
-                  size: "small"
+                  color: "primary"
                 }
               },
               stateText
@@ -252,8 +249,20 @@ export default {
         let data = _this.addData.split(",");
         Add(data)
           .then(res => {
-            console.log(res);
-            _this.modelAdd = false;
+            if (resData.code == 200) {
+              this.$Message.info({
+                content: resData.msg,
+                duration: 10,
+                closable: true
+              });
+              _this.modelAdd = false;
+            } else {
+              this.$Message.error({
+                content: resData.msg,
+                duration: 10,
+                closable: true
+              });
+            }
           })
           .catch(err => {
             console.log(err);

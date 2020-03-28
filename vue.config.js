@@ -42,7 +42,7 @@ module.exports = {
     host: '0.0.0.0',
     port: 8091,
     hot: true,
-    proxy: 'http://192.168.1.46:8816/'
-    // proxy: 'http://howard.ngrok.bitcoding.top/'
+    // proxy: 'http://192.168.1.46:8816/'
+    proxy: 'http://howard.ngrok.bitcoding.top/'
   }
 }

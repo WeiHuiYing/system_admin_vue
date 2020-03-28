@@ -3,21 +3,33 @@
     <div class="search-con search-con-top">
       <Row>
         <Col :span="20">
-          <Form ref="formInline" label-position="right" :label-width="60" inline>
+          <Form
+            ref="formInline"
+            label-position="right"
+            :label-width="60"
+            inline
+          >
             <FormItem label="sku">
               <Input class="search-input" v-model="filters.singleSku" />
             </FormItem>
             <FormItem label="仓库">
-              <Select v-model="filters.warehouseId" style="width:200px" :clearable="true">
+              <Select
+                v-model="filters.warehouseId"
+                style="width:200px"
+                :clearable="true"
+              >
                 <Option
                   v-for="item in warehouseList"
                   :value="item.warehouseId"
                   :key="item.warehouseId"
-                >{{ item.warehouseDesc }}</Option>
+                  >{{ item.warehouseDesc }}</Option
+                >
               </Select>
             </FormItem>
             <FormItem>
-              <Button @click="loadData()" class="search-btn" type="primary">搜索</Button>
+              <Button @click="loadData()" class="search-btn" type="primary"
+                >搜索</Button
+              >
             </FormItem>
           </Form>
         </Col>
@@ -35,7 +47,13 @@
         </Col>
       </Row>
     </div>
-    <Table ref="tables" height="700" :data="listData" v-bind:columns="listColums" stripe></Table>
+    <Table
+      ref="tables"
+      height="700"
+      :data="listData"
+      v-bind:columns="listColums"
+      stripe
+    ></Table>
     <div style="margin: 10px;overflow: hidden">
       <div style="float: right;">
         <Page
@@ -55,7 +73,6 @@
 <script>
 import { getUsBase as getList } from "@/api/Analysis";
 import { getList as getWareList } from "@/api/ECWarehouse";
-import { DateUtil } from "@/libs/dateUtil";
 import store from "@/store";
 export default {
   data() {

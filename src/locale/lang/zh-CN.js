@@ -12,4 +12,10 @@ export default {
   omsAnsList_page: 'Oms入库单',
   UsTagTypeInventory_page: '美国仓类型报表',
   ECShipBatch_page: '头程出库单',
+  WeavingBlock_page: '发帘发块分产品尺寸销售占比',
+  GetDensity_page: '头套产品销售明细',
+  SalesTotal_page: '销售汇总报表',
+  HairWeftStyleSale_page: '发帘发块分款式销售占比',
+  OrderRatio_page: '单条订单与多条订单对比',
+  ChannelLevelSalesCount_page: '各店铺各等级产品销量汇总'
 }

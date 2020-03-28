@@ -61,7 +61,7 @@
 <script>
 import { getSales } from "@/api/Analysis";
 import { getList as getWareList } from "@/api/ECWarehouse";
-import { DateUtil } from "@/libs/dateUtil";
+import dayjs from "dayjs";
 export default {
   data() {
     return {
@@ -113,7 +113,13 @@ export default {
       let _this = this;
       if (!_this.pageCurrent) _this.pageCurrent = 1;
       if (_this.filters.datetimePoint == "") {
-        _this.filters.datetimePoint = DateUtil.now();
+        _this.filters.datetimePoint = dayjs(new Date()).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+      } else {
+        _this.filters.datetimePoint = dayjs(_this.filters.datetimePoint).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
       }
       let filtersquery = [];
       let filtersSku = {};
