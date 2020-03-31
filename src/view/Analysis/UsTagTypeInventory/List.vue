@@ -3,7 +3,7 @@
     <div class="search-con search-con-top">
       <Form ref="formInline" label-position="right" :label-width="60" inline>
         <FormItem label="Sku">
-          <Input class="search-input" v-model="filters.productSku" />
+          <Input class="search-input" clearable v-model="filters.productSku" />
         </FormItem>
         <FormItem>
           <Button @click="loadData()" class="search-btn" type="primary">
@@ -94,7 +94,6 @@ export default {
       _this.tableLoading = true;
       getList(data)
         .then(res => {
-          console.log(res);
           _this.tableLoading = false;
           if (res.data.code == 200) {
             _this.listData = res.data.data;
@@ -113,7 +112,6 @@ export default {
         });
     },
     changePage(val) {
-      console.log(val);
       let _this = this;
       _this.pageCurrent = val;
       _this.loadData();

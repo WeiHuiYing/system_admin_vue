@@ -7,15 +7,16 @@ export default {
   resourceManage: 'ResourcenManage',
   companyManage: 'CompanyManage',
   taskManage: 'TaskManage',
-  salesAnalysis_page: 'SalesAnalysis',
   BnsUsBaseInventory_page: 'BnsUsBaseInventory',
   omsAnsList_page: 'OmsAnalysis',
   UsTagTypeInventory_page: 'UsTagTypeInventory',
   ECShipBatch_page: 'ECShipBatch',
-  WeavingBlock_page: 'WeavingBlock',
-  GetDensity_page: 'WigsSalesAnalysis',
-  SalesTotal_page: 'SalesTotalAnalysis',
-  HairWeftStyleSale_page: 'WeavingBlockSalesRatio',
-  OrderRatio_page: 'SingleOrderVSMultipleOrders ',
-  ChannelLevelSalesCount_page: 'ChannelLevelSalesCount'
+  Analysis: 'SalesClass',
+  salesAnalysis: 'SalesAnalysis',
+  WeavingBlock: 'WeavingBlock',
+  GetDensity: 'WigsSalesAnalysis',
+  SalesTotal: 'SalesTotalAnalysis',
+  HairWeftStyleSale: 'WeavingBlockSalesRatio',
+  OrderRatio: 'SingleOrderVSMultipleOrders ',
+  ChannelLevelSalesCount: 'ChannelLevelSalesCount'
 }

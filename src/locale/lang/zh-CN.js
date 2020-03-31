@@ -7,15 +7,16 @@ export default {
   resourceManage: '资源信息',
   companyManage: '组织结构',
   taskManage: '任务管理',
-  salesAnalysis_page: '销售报表',
   BnsUsBaseInventory_page: '美国仓仓底维护',
   omsAnsList_page: 'Oms入库单',
   UsTagTypeInventory_page: '美国仓类型报表',
   ECShipBatch_page: '头程出库单',
-  WeavingBlock_page: '发帘发块分产品尺寸销售占比',
-  GetDensity_page: '头套产品销售明细',
-  SalesTotal_page: '销售汇总报表',
-  HairWeftStyleSale_page: '发帘发块分款式销售占比',
-  OrderRatio_page: '单条订单与多条订单对比',
-  ChannelLevelSalesCount_page: '各店铺各等级产品销量汇总'
+  Analysis: '销售类报表',
+  salesAnalysis: '销售报表',
+  WeavingBlock: '发帘发块分产品尺寸销售占比',
+  GetDensity: '头套产品销售明细',
+  SalesTotal: '销售汇总报表',
+  HairWeftStyleSale: '发帘发块分款式销售占比',
+  OrderRatio: '单条订单与多条订单对比',
+  ChannelLevelSalesCount: '各店铺各等级产品销量汇总'
 }

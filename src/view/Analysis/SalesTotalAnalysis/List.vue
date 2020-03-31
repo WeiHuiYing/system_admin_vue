@@ -2,16 +2,24 @@
   <div class="content-main">
     <Row class="search-con search-con-top">
       <Col :span="18">
-        <Form ref="formInline" label-position="right" :label-width="60" inline>
-          <FormItem label="时间范围">
+        <Form ref="formInline" label-position="right" :label-width="100" inline>
+          <FormItem prop="startTime" label="下单开始时间">
             <DatePicker
-              v-model="filters.dateMerange"
-              type="datetimerange"
-              placeholder="请选择时间范围"
-              style="width: 300px"
+              v-model="filters.startTime"
+              type="datetime"
+              placeholder="请选择开始时间"
+              style="width: 200px"
             ></DatePicker>
           </FormItem>
-          <FormItem v-if="totalData.length>0" label="商品类型">
+          <FormItem prop="endTime" label="下单结束时间">
+            <DatePicker
+              v-model="filters.endTime"
+              type="datetime"
+              placeholder="请选择结束时间"
+              style="width: 200px"
+            ></DatePicker>
+          </FormItem>
+          <FormItem label="商品类型">
             <Select
               @on-change="filtersTypeList"
               v-model="filters.type"
@@ -66,7 +74,8 @@ export default {
   data() {
     return {
       filters: {
-        dateMerange: [],
+        startTime: "",
+        endTime: "",
         type: []
       },
       tableLoading: false,
@@ -94,36 +103,38 @@ export default {
   methods: {
     loadData() {
       let _this = this;
-      let startTime = "";
-      let endTime = "";
       let data = {};
-      if (_this.filters.dateMerange.length > 0) {
-        if (_this.filters.dateMerange[0] !== "") {
-          startTime = dayjs(_this.filters.dateMerange[0]).format(
-            "YYYY-MM-DD HH:mm:ss"
-          );
-          data.startTime = startTime;
-        } else {
-          this.$Message.error({
-            content: "请选择时间",
-            duration: 10,
-            closable: true
-          });
-          return false;
-        }
-        if (_this.filters.dateMerange[1] !== "") {
-          endTime = dayjs(_this.filters.dateMerange[1]).format(
-            "YYYY-MM-DD HH:mm:ss"
-          );
-          data.endTime = endTime;
-        } else {
-          this.$Message.error({
-            content: "请选择时间",
-            duration: 10,
-            closable: true
-          });
-          return false;
-        }
+      if (_this.filters.startTime !== "") {
+        data.startTime = dayjs(_this.filters.startTime).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+      } else {
+        data.startTime = dayjs().subtract(7, 'day').format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+        _this.filters.startTime = dayjs().subtract(7, 'day').format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+      }
+      if (_this.filters.endTime !== "") {
+        data.endTime = dayjs(_this.filters.endTime).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+      } else {
+        data.endTime = dayjs().format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+        _this.filters.endTime = dayjs().format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+      }
+      if (!dayjs(data.endTime).isAfter(dayjs(data.startTime))) {
+        this.$Message.error({
+          content: "结束时间在开始时间之后",
+          duration: 10,
+          closable: true
+        });
+        return false;
       }
       _this.tableLoading = true;
       getList(data)
@@ -132,7 +143,11 @@ export default {
           const resData = res.data;
           if (resData.code == 200) {
             _this.totalData = resData.data;
-            _this.listData = _this.totalData;
+            if (_this.filters.type.length > 0) {
+              _this.filtersTypeList();
+            } else {
+              _this.listData = _this.totalData;
+            }
           } else {
             this.$Message.error({
               content: resData.msg,
@@ -149,7 +164,6 @@ export default {
       let _this = this;
       getType()
         .then(res => {
-          console.log(res);
           const resData = res.data;
           if (resData.code == 200) {
             _this.TypeList = resData.data;
@@ -176,7 +190,6 @@ export default {
               }
             }
           });
-          console.log(_this.listData);
         } else {
           _this.listData = _this.totalData;
         }
@@ -210,10 +223,14 @@ export default {
           };
           return;
         }
+        let stringType = false;
         const values = data.map(item => {
-          return Number(item[key]);
+          let value = JSON.stringify(item[key]);
+          stringType = value.indexOf("%") != -1;
+          value = value.replace("%", "");
+          value = JSON.parse(value);
+          return Number(value);
         });
-        let totalVal;
         if (!values.every(value => isNaN(value))) {
           let val = values.reduce((prev, curr) => {
             const value = Number(curr);
@@ -223,6 +240,9 @@ export default {
               return prev;
             }
           }, 0);
+          if (stringType) {
+            val = parseFloat(val).toFixed(2) + "%";
+          }
           sums[key] = {
             key,
             value: val
@@ -246,20 +266,27 @@ export default {
     },
     exportList() {
       let _this = this;
-      let titleArr = _this.listColums
-        .filter((item, index) => {
-          return index != 0;
-        })
-        .map(item => {
-          return item.title;
+      let titleArr = [];
+      let keyArr = [];
+      let columnsArr = [];
+      _this.listColums.filter((item, index) => { return index != 0; }).forEach(item => {
+          if (item.children) {
+            item.children.forEach(child => {
+              let children = {};
+              children.title = item.title + "|" + child.title;
+              children.key = child.key;
+              columnsArr.push(children);
+            });
+          } else {
+            columnsArr.push(item);
+          }
         });
-      let keyArr = _this.listColums
-        .filter((item, index) => {
-          return index != 0;
-        })
-        .map(item => {
-          return item.key;
-        });
+      titleArr = columnsArr.map(item => {
+        return item.title
+      })
+      keyArr = columnsArr.map(item => {
+        return item.key
+      })
       const params = {
         title: titleArr,
         key: keyArr,
@@ -271,6 +298,7 @@ export default {
     }
   },
   mounted() {
+    this.loadData()
     this.typeLoad();
   }
 };

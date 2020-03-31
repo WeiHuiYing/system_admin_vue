@@ -26,7 +26,6 @@ export default {
       _this.functionTree = [];
       getFunctions(data)
         .then(res => {
-          console.log(res);
           const resData = res.data;
           if (resData.code == 200) {
             _this.functions = resData.data;
@@ -77,7 +76,6 @@ export default {
       _this.loadFunction();
     },
     checkChange(data) {
-      console.log(data);
       let _this = this;
       let checkList = data;
       _this.checkedCodes = [];

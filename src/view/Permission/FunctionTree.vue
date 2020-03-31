@@ -27,7 +27,6 @@ export default {
       _this.functionTreeItems = [];
       getFunctions(data)
         .then(res => {
-          console.log(res);
           const resData = res.data;
           if (resData.code == 200) {
             _this.functions = resData.data;

@@ -182,7 +182,6 @@ export default {
       let _this = this;
       getDetails(_this.rowInfo.id)
         .then(res => {
-          console.log(res);
           const resData = res.data;
           if (resData.code == 200) {
             _this.rowInfo = resData.data;

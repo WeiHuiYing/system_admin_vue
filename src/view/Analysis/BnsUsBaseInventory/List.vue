@@ -10,13 +10,13 @@
             inline
           >
             <FormItem label="sku">
-              <Input class="search-input" v-model="filters.singleSku" />
+              <Input clearable class="search-input" v-model="filters.singleSku" />
             </FormItem>
             <FormItem label="仓库">
               <Select
                 v-model="filters.warehouseId"
                 style="width:200px"
-                :clearable="true"
+                clearable
               >
                 <Option
                   v-for="item in warehouseList"
@@ -136,7 +136,6 @@ export default {
       };
       getList(data)
         .then(res => {
-          console.log(res);
           if (res.data.code == 200) {
             _this.listData = res.data.data;
             _this.pageTotal = res.data.count;
@@ -157,7 +156,6 @@ export default {
       let data = {};
       getWareList(data)
         .then(res => {
-          console.log(res);
           if (res.data.code == 200) {
             _this.warehouseList = res.data.data;
           } else {
@@ -173,7 +171,6 @@ export default {
         });
     },
     changePage(val) {
-      console.log(val);
       let _this = this;
       _this.pageCurrent = val;
       _this.loadData();

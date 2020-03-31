@@ -5,7 +5,7 @@
       <Row>
         <Col span="24">
           <FormItem label="中文名" prop="cnName">
-            <Input v-model="Row.cnName" />
+            <Input v-model="Row.cnName" clearable />
           </FormItem>
         </Col>
       </Row>
@@ -13,14 +13,14 @@
       <Row>
         <Col span="24">
           <FormItem label="英文名" prop="enName">
-            <Input v-model="Row.enName" />
+            <Input v-model="Row.enName" clearable />
           </FormItem>
         </Col>
       </Row>
       <Row>
         <Col span="24">
           <FormItem label="编码" prop="permissionCode">
-            <Input v-model="Row.permissionCode" />
+            <Input v-model="Row.permissionCode" clearable />
           </FormItem>
         </Col>
       </Row>

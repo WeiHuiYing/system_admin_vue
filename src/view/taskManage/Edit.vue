@@ -4,27 +4,27 @@
       <Row>
         <Col span="12">
           <FormItem label="任务名称" prop="jobName">
-            <Input v-model="Row.jobName" />
+            <Input v-model="Row.jobName" clearable />
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="任务组" prop="jobGroup">
-            <Input v-model="Row.jobGroup" />
+            <Input v-model="Row.jobGroup" clearable />
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="Corn表达式" prop="cron">
-            <Input v-model="Row.cron" />
+            <Input v-model="Row.cron" clearable />
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="任务所在DLL对应的程序集名称" prop="assemblyName">
-            <Input v-model="Row.assemblyName" />
+            <Input v-model="Row.assemblyName" clearable />
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="任务所在类" prop="className">
-            <Input v-model="Row.className" />
+            <Input v-model="Row.className" clearable />
           </FormItem>
         </Col>
         <Col span="12">
@@ -59,12 +59,12 @@
         </Col>
         <Col span="12">
           <FormItem label="执行间隔时间(s)" prop="intervalSecond">
-            <Input v-model="Row.intervalSecond" />
+            <Input v-model="Row.intervalSecond" clearable />
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="外部url" prop="url">
-            <Input v-model="Row.url" />
+            <Input v-model="Row.url" clearable />
           </FormItem>
         </Col>
       </Row>

@@ -2,13 +2,21 @@
   <div class="content-main">
     <Row class="search-con search-con-top">
       <Col :span="18">
-        <Form ref="formInline" label-position="right" :label-width="60" inline>
-          <FormItem label="时间范围">
+        <Form ref="formInline" label-position="right" :label-width="100" inline>
+          <FormItem prop="startTime" label="下单开始时间">
             <DatePicker
-              v-model="filters.dateMerange"
-              type="datetimerange"
-              placeholder="请选择时间范围"
-              style="width: 300px"
+              v-model="filters.startTime"
+              type="datetime"
+              placeholder="请选择开始时间"
+              style="width: 200px"
+            ></DatePicker>
+          </FormItem>
+          <FormItem prop="endTime" label="下单结束时间">
+            <DatePicker
+              v-model="filters.endTime"
+              type="datetime"
+              placeholder="请选择结束时间"
+              style="width: 200px"
             ></DatePicker>
           </FormItem>
           <FormItem label="商品款式">
@@ -59,7 +67,8 @@ export default {
   data() {
     return {
       filters: {
-        dateMerange: [],
+        startTime: "",
+        endTime: "",
         type: "发帘"
       },
       tableLoading: false,
@@ -72,7 +81,8 @@ export default {
         },
         {
           title: "尺寸",
-          key: "size"
+          key: "size",
+          align: "center"
         },
         {
           title: "总销量",
@@ -80,51 +90,108 @@ export default {
         },
         {
           title: "单尺寸销量",
+          align: "center",
           key: "sizeTotal"
         },
         {
           title: "尺寸总占比",
+          align: "center",
           key: "sizeTotalRatio"
         },
         {
-          title: "速卖通|销量",
-          key: "aliSizeTotal"
+          title: "速卖通",
+          width: 200,
+          align: "center",
+          children: [
+            {
+              title: "销量",
+              width: 100,
+              align: "center",
+              key: "aliSizeTotal"
+            },
+            {
+              title: "占比",
+              width: 100,
+              align: "center",
+              key: "aliSizeTotalRatio"
+            }
+          ]
         },
         {
-          title: "速卖通|占比",
-          key: "aliSizeTotalRatio"
+          title: "亚马逊",
+          width: 200,
+          align: "center",
+          children: [
+            {
+              title: "销量",
+              width: 100,
+              align: "center",
+              key: "amazSizeTotal"
+            },
+            {
+              title: "占比",
+              width: 100,
+              align: "center",
+              key: "amazSizeTotalRatio"
+            }
+          ]
         },
         {
-          title: "亚马逊|销量",
-          key: "amazSizeTotal"
+          title: "自营站",
+          width: 200,
+          align: "center",
+          children: [
+            {
+              title: "销量",
+              width: 100,
+              align: "center",
+              key: "magentoSizeTotal"
+            },
+            {
+              title: "占比",
+              width: 100,
+              align: "center",
+              key: "magentoSizeTotalRatio"
+            }
+          ]
         },
         {
-          title: "亚马逊|占比",
-          key: "amazSizeTotalRatio"
+          title: "SHOPIFY",
+          width: 200,
+          align: "center",
+          children: [
+            {
+              title: "销量",
+              width: 100,
+              align: "center",
+              key: "shopifySizeTotal"
+            },
+            {
+              title: "占比",
+              width: 100,
+              align: "center",
+              key: "shopifySizeTotalRatio"
+            }
+          ]
         },
         {
-          title: "自营站|销量",
-          key: "magentoSizeTotal"
-        },
-        {
-          title: "自营站|占比",
-          key: "magentoSizeTotalRatio"
-        },
-        {
-          title: "SHOPIFY|销量",
-          key: "shopifySizeTotal"
-        },
-        {
-          title: "SHOPIFY|占比",
-          key: "shopifySizeTotalRatio"
-        },
-        {
-          title: "ebay平台|销量",
-          key: "ebaySizeTotal"
-        },
-        {
-          title: "ebay平台|占比",
-          key: "ebaySizeTotalRatio"
+          title: "ebay平台",
+          width: 200,
+          align: "center",
+          children: [
+            {
+              title: "销量",
+              width: 100,
+              align: "center",
+              key: "ebaySizeTotal"
+            },
+            {
+              title: "占比",
+              width: 100,
+              align: "center",
+              key: "ebaySizeTotalRatio"
+            }
+          ]
         }
       ],
       selectionList: []
@@ -133,24 +200,40 @@ export default {
   methods: {
     loadData() {
       let _this = this;
-      let startTime = "";
-      let endTime = "";
       let data = {
         type: _this.filters.type
       };
-      if (_this.filters.dateMerange.length > 0) {
-        if (_this.filters.dateMerange[0] !== "") {
-          startTime = dayjs(_this.filters.dateMerange[0]).format(
-            "YYYY-MM-DD HH:mm:ss"
-          );
-          data.startTime = startTime;
-        }
-        if (_this.filters.dateMerange[1] !== "") {
-          endTime = dayjs(_this.filters.dateMerange[1]).format(
-            "YYYY-MM-DD HH:mm:ss"
-          );
-          data.endTime = endTime;
-        }
+      if (_this.filters.startTime !== "") {
+        data.startTime = dayjs(_this.filters.startTime).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+      } else {
+        data.startTime = dayjs().subtract(7, 'day').format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+        _this.filters.startTime = dayjs().subtract(7, 'day').format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+      }
+      if (_this.filters.endTime !== "") {
+        data.endTime = dayjs(_this.filters.endTime).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+      } else {
+        data.endTime = dayjs().format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+        _this.filters.endTime = dayjs().format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+      }
+      if (!dayjs(data.endTime).isAfter(dayjs(data.startTime))) {
+        this.$Message.error({
+          content: "结束时间在开始时间之后",
+          duration: 10,
+          closable: true
+        });
+        return false;
       }
       _this.tableLoading = true;
       getList(data)
@@ -205,14 +288,15 @@ export default {
           };
           return;
         }
+        let stringType = false;
         const values = data.map(item => {
           let value = JSON.stringify(item[key]);
+          stringType = value.indexOf("%") != -1;
           value = value.replace("%", "");
           value = JSON.parse(value);
           return Number(value);
         });
         if (!values.every(value => isNaN(value))) {
-          let IntReg = /^[0-9]*[1-9][0-9]*$/;
           let val = values.reduce((prev, curr) => {
             const value = Number(curr);
             if (!isNaN(value)) {
@@ -221,7 +305,7 @@ export default {
               return prev;
             }
           }, 0);
-          if (!IntReg.test(val)) {
+          if (stringType) {
             val = parseFloat(val).toFixed(2) + "%";
           }
           sums[key] = {
@@ -235,7 +319,6 @@ export default {
           };
         }
       });
-      console.log(sums);
       return sums;
     },
     tableSelect(selection) {
@@ -246,22 +329,30 @@ export default {
         this.exportList();
       }
     },
+    // 导出功能
     exportList() {
       let _this = this;
-      let titleArr = _this.listColums
-        .filter((item, index) => {
-          return index != 0;
-        })
-        .map(item => {
-          return item.title;
+      let titleArr = [];
+      let keyArr = [];
+      let columnsArr = [];
+      _this.listColums.filter((item, index) => { return index != 0; }).forEach(item => {
+          if (item.children) {
+            item.children.forEach(child => {
+              let children = {};
+              children.title = item.title + "|" + child.title;
+              children.key = child.key;
+              columnsArr.push(children);
+            });
+          } else {
+            columnsArr.push(item);
+          }
         });
-      let keyArr = _this.listColums
-        .filter((item, index) => {
-          return index != 0;
-        })
-        .map(item => {
-          return item.key;
-        });
+      titleArr = columnsArr.map(item => {
+        return item.title
+      })
+      keyArr = columnsArr.map(item => {
+        return item.key
+      })
       const params = {
         title: titleArr,
         key: keyArr,
@@ -273,6 +364,7 @@ export default {
     }
   },
   mounted() {
+    let _this = this;
     this.loadData();
   }
 };

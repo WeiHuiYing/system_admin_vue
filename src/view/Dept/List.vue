@@ -97,7 +97,6 @@ export default {
         navPropertyPaths: ["resUsers"]
       };
       getList(data).then(res => {
-        console.log(res);
         const resData = res.data;
         if (resData.code == 200) {
           
@@ -120,7 +119,6 @@ export default {
       _this.listData = []
       Get(data)
         .then(res => {
-          console.log(res)
           const resData = res.data;
           if (resData.code == 200) {
             _this.loadChild(resData.data);
@@ -186,7 +184,6 @@ export default {
       var row = this.$refs.edit.Row;
     },
     deptChange(data) {
-      console.log(data);
       let _this = this;
       _this.selectedId = data.id
       this.getData();

@@ -12,14 +12,14 @@
       <Row>
         <Col span="24">
           <FormItem label="名称" prop="deptName">
-            <Input v-model="Row.deptName" />
+            <Input clearable v-model="Row.deptName" />
           </FormItem>
         </Col>
       </Row>
       <Row>
         <Col span="24">
           <FormItem label="备注" prop="remark">
-            <Input v-model="Row.remark" type="textarea" :autosize="{minRows: 2,maxRows: 2}" />
+            <Input v-model="Row.remark" type="textarea" clearable :autosize="{minRows: 2,maxRows: 2}" />
           </FormItem>
         </Col>
       </Row>
@@ -95,7 +95,6 @@ export default {
       this.modelDept = true;
     },
     deptChange(data) {
-      console.log(data);
       this.Row.parentCode = data.value;
       this.Row.parentName = data.title;
       this.Row.parentId = data.id;
@@ -116,7 +115,6 @@ export default {
         if (r) {
           addDept(this.Row)
             .then(res => {
-              console.log(res);
               const resData = res.data;
               const data = resData.data;
               const code = resData.code;

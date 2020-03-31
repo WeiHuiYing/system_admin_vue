@@ -91,7 +91,6 @@ export default {
       }
     },
     deptTreeChange(data) {
-      console.log(data);
       var item0 = data[0];
       this.parent.deptChange(item0);
     }

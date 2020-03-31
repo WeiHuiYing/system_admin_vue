@@ -4,24 +4,24 @@
             <Row>
                 <Col span="12">
                     <FormItem label="类型名称" prop="typeName">
-                        <Input v-model="Row.typeName" />
+                        <Input v-model="Row.typeName" clearable />
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="中文名称" prop="cnName">
-                        <Input v-model="Row.cnName" />
+                        <Input v-model="Row.cnName" clearable />
                     </FormItem>
                 </Col>
             </Row>
             <Row>
                 <Col span="12">
                     <FormItem label="英文名称" prop="enName">
-                        <Input v-model="Row.enName" />
+                        <Input v-model="Row.enName" clearable />
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="编码" prop="resourceCode">
-                        <Input v-model="Row.resourceCode" />
+                        <Input v-model="Row.resourceCode" clearable />
                     </FormItem>
                 </Col>
             </Row>
@@ -108,7 +108,6 @@
                 _this.saveValidate().then(r => {
                     if(r){
                         editResource(_this.Row).then(res=>{
-                            console.log(res)
                             if(res.data.code === 200){
                                 this.$Message.info("编辑成功");
                                 this.parent.modelEdit = false;

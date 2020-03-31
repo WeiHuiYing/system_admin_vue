@@ -113,7 +113,6 @@
             loadData(){
                 let _this = this;
                 getFunction(_this.Row.id).then(res => {
-                    console.log(res)
                     const resData = res.data;
                     if(resData.code == 200){
                         _this.tableData = resData.data;
@@ -133,13 +132,11 @@
               _this.modelEdit = true;
             },
             handleDelete(params){
-              console.log(params)
               this.$Modal.confirm({
                 title: "提示",
                 content: "<p>确定要删除?</p>",
                 onOk: () => {
                   deleteFunction(params.row.id).then(res => {
-                      console.log(res)
                       const resData = res.data;
                       if(resData.code == 200){
                           this.$Message.info("删除成功");

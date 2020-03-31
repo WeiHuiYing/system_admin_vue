@@ -10,14 +10,14 @@
       <Row>
         <Col span="24">
           <FormItem label="角色名" prop="roleName">
-            <Input v-model="Row.roleName" />
+            <Input v-model="Row.roleName" clearable />
           </FormItem>
         </Col>
       </Row>
       <Row>
         <Col span="24">
           <FormItem label="备注" prop="remark">
-            <Input v-model="Row.remark" />
+            <Input v-model="Row.remark" clearable />
           </FormItem>
         </Col>
       </Row>

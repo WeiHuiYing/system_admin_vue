@@ -4,7 +4,7 @@
     <div class="search-con search-con-top">
       <Form ref="formInline" label-position="right" :label-width="60" inline>
         <FormItem label="角色名">
-          <Input class="search-input" v-model="filters.roleName" />
+          <Input class="search-input" clearable v-model="filters.roleName" />
         </FormItem>
           <Button class="search-btn" type="primary" @click="loadData()">
             <Icon type="search" />&nbsp;&nbsp;搜索

@@ -11,13 +11,13 @@
           ></DatePicker>
         </FormItem>
         <FormItem label="sku">
-          <Input class="search-input" v-model="filters.singleSku" />
+          <Input class="search-input" clearable v-model="filters.singleSku" />
         </FormItem>
         <FormItem label="仓库">
           <Select
             v-model="filters.warehouseId"
             style="width:200px"
-            :clearable="true"
+            clearable
           >
             <Option
               v-for="item in warehouseList"
@@ -36,10 +36,10 @@
     </div>
     <Table
       ref="tables"
-      height="700"
       :loading="tableLoading"
       :data="listData"
       v-bind:columns="listColums"
+      height="700"
       stripe
     ></Table>
     <div style="margin: 10px;overflow: hidden">
@@ -127,7 +127,7 @@ export default {
       if (!_this.filters.singleSku == "") {
         filtersSku = {
           key: "singleSku",
-          binaryop: "eq",
+          binaryop: "like",
           value: _this.filters.singleSku,
           andorop: "and"
         };
@@ -153,7 +153,6 @@ export default {
       _this.tableLoading = true;
       getSales(data)
         .then(res => {
-          console.log(res);
           _this.tableLoading = false;
           if (res.data.code == 200) {
             _this.listData = res.data.data;
@@ -176,7 +175,6 @@ export default {
       let data = {};
       getWareList(data)
         .then(res => {
-          console.log(res);
           if (res.data.code == 200) {
             _this.warehouseList = res.data.data;
           } else {
@@ -192,7 +190,6 @@ export default {
         });
     },
     changePage(val) {
-      console.log(val);
       let _this = this;
       _this.pageCurrent = val;
       _this.loadData();

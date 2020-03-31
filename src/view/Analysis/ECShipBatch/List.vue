@@ -41,7 +41,7 @@
     >
       <Form label-position="right" :label-width="60">
         <FormItem label="入库单号">
-          <Input class="search-input" placeholder="请输入" v-model="addData" />
+          <Input class="search-input" clearable placeholder="请输入" v-model="addData" />
         </FormItem>
       </Form>
       <div class="mark-warp">输入值请用“,”分隔</div>
@@ -140,7 +140,6 @@ export default {
       _this.tableLoading = true;
       getList(data).then(res => {
         _this.tableLoading = false;
-        console.log(res);
         let resData = res.data;
         if (resData.code == 200) {
           _this.listData = resData.data;
@@ -156,7 +155,6 @@ export default {
     },
     viewDetils(params) {
       let _this = this;
-      console.log(params);
       _this.detilsRow = {};
       _this.detilsRow = params.row;
       _this.modelDetils = true;
@@ -173,7 +171,6 @@ export default {
         let data = _this.addData.split(",");
         Add(data)
           .then(res => {
-            console.log(res);
             const resData = res.data;
             if (resData.code == 200) {
               _this.modelAdd = false;

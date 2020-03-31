@@ -6,7 +6,7 @@
           <Col :span="20">
             <Form ref="formInline" label-position="right" :label-width="60" inline>
               <FormItem label="入库单号">
-                <Input class="search-input" v-model="filters.omsReceivingCode" />
+                <Input class="search-input" clearable v-model="filters.omsReceivingCode" />
               </FormItem>
               <FormItem>
                 <Button @click="loadData()" class="search-btn" type="primary">搜索</Button>
@@ -52,7 +52,7 @@
     >
       <Form label-position="right" :label-width="60">
         <FormItem label="入库单号">
-          <Input class="search-input" placeholder="请输入" v-model="addData" />
+          <Input class="search-input" clearable placeholder="请输入" v-model="addData" />
         </FormItem>
       </Form>
       <div class="mark-warp">输入值请用“,”分隔</div>
@@ -203,7 +203,6 @@ export default {
       getList(data)
         .then(res => {
           _this.tableLoading = false;
-          console.log(res);
           if (res.data.code == 200) {
             _this.listData = res.data.data;
           } else {
@@ -220,7 +219,6 @@ export default {
         });
     },
     changePage(val) {
-      console.log(val);
       let _this = this;
       _this.pageCurrent = val;
       _this.loadData();
@@ -232,7 +230,6 @@ export default {
     },
     viewDetils(params) {
       let _this = this;
-      console.log(params);
       _this.detilsRow = {};
       _this.detilsRow = params.row;
       _this.modelDetils = true;

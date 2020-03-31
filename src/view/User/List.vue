@@ -3,10 +3,10 @@
     <div class="search-con search-con-top">
       <Form ref="formInline" label-position="right" :label-width="60" inline>
         <FormItem label="用户名">
-          <Input class="search-input" v-model="filters.userName" />
+          <Input class="search-input" clearable v-model="filters.userName" />
         </FormItem>
         <FormItem label="电话">
-          <Input class="search-input" v-model="filters.phone" />
+          <Input class="search-input" clearable v-model="filters.phone" />
         </FormItem>
         <FormItem>
           <Button @click="loadData()" class="search-btn" type="primary">

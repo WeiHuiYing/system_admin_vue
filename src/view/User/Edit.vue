@@ -4,19 +4,19 @@
       <Row>
         <Col span="12">
           <FormItem label="用户名" prop="userName">
-            <Input v-model="Row.userName" />
+            <Input v-model="Row.userName" clearable />
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="密码" prop="salt">
-            <Input type="password" v-model="Row.salt" />
+            <Input type="password" v-model="Row.salt" clearable />
           </FormItem>
         </Col>
       </Row>
       <Row>
         <Col span="12">
           <FormItem label="电话">
-            <Input v-model="Row.phone" />
+            <Input v-model="Row.phone" clearable />
           </FormItem>
         </Col>
         <Col span="12">
@@ -28,19 +28,19 @@
       <Row>
         <Col span="12">
           <FormItem label="姓名">
-            <Input v-model="Row.realName" />
+            <Input v-model="Row.realName" clearable />
           </FormItem>
         </Col>
         <Col span="12">
           <FormItem label="头像url">
-            <Input v-model="Row.headUrl" />
+            <Input v-model="Row.headUrl" clearable />
           </FormItem>
         </Col>
       </Row>
       <Row>
         <Col span="24">
           <FormItem label="角色">
-            <Select v-model="Row.UserRoles" filterable multiple @on-change="rolesSelect">
+            <Select v-model="Row.UserRoles" filterable multiple clearable @on-change="rolesSelect">
               <Option v-for="item in Roles" :value="item.id" :key="item.id">{{ item.roleName }}</Option>
             </Select>
           </FormItem>
@@ -49,14 +49,14 @@
       <Row>
         <Col span="24">
           <FormItem label="邮箱地址">
-            <Input v-model="Row.email" />
+            <Input v-model="Row.email" clearable />
           </FormItem>
         </Col>
       </Row>
       <Row>
         <Col span="24">
           <FormItem label="备注">
-            <Input v-model="Row.remark" />
+            <Input v-model="Row.remark" clearable />
           </FormItem>
         </Col>
       </Row>

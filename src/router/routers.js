@@ -1,5 +1,4 @@
 import Main from '@/components/main'
-import parentView from '@/components/parent-view'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -47,7 +46,6 @@ export default [{
       component: () => import('@/view/single-page/home')
     }]
   },
-
   {
     path: '/message',
     name: 'message',
@@ -124,38 +122,72 @@ export default [{
     ]
   },
   {
-    path: '/salesAnalysis',
-    name: 'salesAnalysis',
-    component: Main,
+
+    path: '/Analysis',
+    name: 'Analysis',
     meta: {
-      hideInBread: true
+      icon: 'md-grid',
+      title: '销售类报表'
     },
-    children: [{
-      path: 'salesAnalysis_page',
-      name: 'salesAnalysis_page',
-      meta: {
-        icon: 'md-grid',
-        title: '销售报表'
-      },
-      component: () => import('@/view/SalesAnalysis/List.vue')
-    }]
-  },
-  {
-    path: '/SalesTotal',
-    name: 'SalesTotal',
     component: Main,
-    meta: {
-      hideInBread: true
-    },
     children: [{
-      path: 'SalesTotal_page',
-      name: 'SalesTotal_page',
-      meta: {
-        icon: 'md-grid',
-        title: '销售汇总报表'
+        path: 'salesAnalysis',
+        name: 'salesAnalysis',
+        meta: {
+          title: '销售报表'
+        },
+        component: () => import('@/view/Analysis/SalesAnalysis/List.vue')
       },
-      component: () => import('@/view/Analysis/SalesTotalAnalysis/List.vue')
-    }]
+      {
+        path: 'SalesTotal',
+        name: 'SalesTotal',
+        meta: {
+          title: '销售汇总报表'
+        },
+        component: () => import('@/view/Analysis/SalesTotalAnalysis/List.vue')
+      },
+      {
+        path: 'WeavingBlock',
+        name: 'WeavingBlock',
+        meta: {
+          title: '发帘发块分产品尺寸销售占比'
+        },
+        component: () => import('@/view/Analysis/WeavingBlock/List.vue')
+      },
+      {
+        path: 'HairWeftStyleSale',
+        name: 'HairWeftStyleSale',
+        meta: {
+          title: '发帘发块分款式销售占比报表'
+        },
+        component: () => import('@/view/Analysis/HairWeftStyleSale/List.vue')
+      },
+      {
+        path: 'GetDensity',
+        name: 'GetDensity',
+        meta: {
+          title: '头套产品销售明细'
+        },
+        component: () => import('@/view/Analysis/GetDensity/List.vue')
+      },
+      {
+        path: 'OrderRatio',
+        name: 'OrderRatio',
+        meta: {
+          title: '单条订单与多条订单对比'
+        },
+        component: () => import('@/view/Analysis/OrderRatio/List.vue')
+      },
+      {
+        path: 'ChannelLevelSalesCount',
+        name: 'ChannelLevelSalesCount',
+        meta: {
+          title: '各店铺各等级产品销量汇总'
+        },
+        component: () => import('@/view/Analysis/ChannelLevelSalesCount/List.vue')
+      }
+
+    ]
   },
   {
     path: '/BnsUsBaseInventory',
@@ -172,23 +204,6 @@ export default [{
         title: '美国仓仓底维护'
       },
       component: () => import('@/view/Analysis/BnsUsBaseInventory/List.vue')
-    }]
-  },
-  {
-    path: '/omsAnsList',
-    name: 'omsAnsList',
-    component: Main,
-    meta: {
-      hideInBread: true
-    },
-    children: [{
-      path: 'omsAnsList_page',
-      name: 'omsAnsList_page',
-      meta: {
-        icon: 'md-grid',
-        title: 'Oms入库单'
-      },
-      component: () => import('@/view/Analysis/OmsAnsList/List.vue')
     }]
   },
   {
@@ -209,6 +224,23 @@ export default [{
     }]
   },
   {
+    path: '/omsAnsList',
+    name: 'omsAnsList',
+    component: Main,
+    meta: {
+      hideInBread: true
+    },
+    children: [{
+      path: 'omsAnsList_page',
+      name: 'omsAnsList_page',
+      meta: {
+        icon: 'md-grid',
+        title: 'Oms入库单'
+      },
+      component: () => import('@/view/Analysis/OmsAnsList/List.vue')
+    }]
+  },
+  {
     path: '/ECShipBatch',
     name: 'ECShipBatch',
     component: Main,
@@ -223,91 +255,6 @@ export default [{
         title: '头程出库单'
       },
       component: () => import('@/view/Analysis/ECShipBatch/List.vue')
-    }]
-  },
-  {
-    path: '/WeavingBlock',
-    name: 'WeavingBlock',
-    component: Main,
-    meta: {
-      hideInBread: true
-    },
-    children: [{
-      path: 'WeavingBlock_page',
-      name: 'WeavingBlock_page',
-      meta: {
-        icon: 'md-grid',
-        title: '发帘发块分产品尺寸销售占比'
-      },
-      component: () => import('@/view/Analysis/WeavingBlock/List.vue')
-    }]
-  },
-  {
-    path: '/HairWeftStyleSale',
-    name: 'HairWeftStyleSale',
-    component: Main,
-    meta: {
-      hideInBread: true
-    },
-    children: [{
-      path: 'HairWeftStyleSale_page',
-      name: 'HairWeftStyleSale_page',
-      meta: {
-        icon: 'md-grid',
-        title: '发帘发块分款式销售占比报表'
-      },
-      component: () => import('@/view/Analysis/HairWeftStyleSale/List.vue')
-    }]
-  },
-  {
-    path: '/GetDensity',
-    name: 'GetDensity',
-    component: Main,
-    meta: {
-      hideInBread: true
-    },
-    children: [{
-      path: 'GetDensity_page',
-      name: 'GetDensity_page',
-      meta: {
-        icon: 'md-grid',
-        title: '头套产品销售明细'
-      },
-      component: () => import('@/view/Analysis/GetDensity/List.vue')
-    }]
-  },
-  {
-    path: '/OrderRatio',
-    name: 'OrderRatio',
-    component: Main,
-    meta: {
-      hideInBread: true
-    },
-    children: [{
-      path: 'OrderRatio_page',
-      name: 'OrderRatio_page',
-      meta: {
-        icon: 'md-grid',
-        title: '单条订单与多条订单对比'
-      },
-      component: () => import('@/view/Analysis/OrderRatio/List.vue')
-    }]
-  },
-  {
-    path: '/ChannelLevelSalesCount',
-    name: 'ChannelLevelSalesCount',
-    component: Main,
-    meta: {
-      hideInBread: true
-    },
-    children: [{
-      path: 'ChannelLevelSalesCount_page',
-      name: 'ChannelLevelSalesCount_page',
-      meta: {
-        icon: 'md-grid',
-        title: '各店铺各等级产品销量汇总'
-      },
-      component: () => import('@/view/Analysis/ChannelLevelSalesCount/List.vue')
     }]
   },
 ]
