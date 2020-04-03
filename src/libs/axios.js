@@ -1,19 +1,7 @@
 import axios from 'axios'
-import store from '@/store'
 import { getToken } from '@/libs/util'
 // import { Spin } from 'iview'
 var token=getToken();
-const addErrorLog = errorInfo => {
-  const { statusText, status, request: { responseURL } } = errorInfo
-  let info = {
-    type: 'ajax',
-    code: status,
-    mes: statusText,
-    url: responseURL
-  }
-  if (!responseURL.includes('save_error_logger')) store.dispatch('addErrorLog', info)
-}
-
 class HttpRequest {
   constructor (baseUrl = baseURL) {
     this.baseUrl = baseUrl
@@ -28,9 +16,8 @@ class HttpRequest {
     }
     //全局请求头 cts 添加
     if(token){
-        config.headers.Authorization ="Bearer "+token;
+      config.headers.Authorization ="Bearer "+token;
     }
-    
     return config
   }
   destroy (url) {
@@ -42,10 +29,6 @@ class HttpRequest {
   interceptors (instance, url) {
     // 请求拦截
     instance.interceptors.request.use(config => {
-      //cts 添加
-      // if(token){
-      //   config.headers.Authorization ="Bearer "+token;
-      // }
       // 添加全局的loading...
       if (!Object.keys(this.queue).length) {
         // Spin.show() // 不建议开启，因为界面不友好
@@ -78,7 +61,6 @@ class HttpRequest {
       if(errorInfo.status=="401"){
         window.location.reload();
       }
-      addErrorLog(errorInfo)
       return Promise.reject(error)
     })
   }

@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+import "@/assets/css/util.less";
 import DeptTree from "./DeptTree";
 import Edit from "./Edit";
 import { getChildList, Delete as deleteDept, getList ,Get } from "@/api/ResDept";

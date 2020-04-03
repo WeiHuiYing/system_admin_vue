@@ -15,7 +15,6 @@ export const login = ({ userName, password }) => {
 export const getUserInfo = (token) => {
   return axios.request({
     url: 'api/User/GetAccess',
-    headers: {Authorization:"Bearer "+token},
     method: 'get'
   })
 }

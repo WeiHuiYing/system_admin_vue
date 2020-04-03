@@ -1,14 +1,10 @@
 import axios from '@/libs/api.request'
-import store from '@/store'
-
-var token=store.state.user.token;
 
 
 // 获取资源权限
 export const getList = (id) => {
   return axios.request({
     url: 'api/Permission/GetList/'+id,
-    headers: {Authorization:"Bearer "+token},
     method: 'get'
   })
 }
@@ -17,7 +13,6 @@ export const getList = (id) => {
 export const Add=(data)=>{
   return axios.request({
     url: 'api/Permission/Add',
-    headers: {Authorization:"Bearer "+token},
     data,
     method: 'post'
   })
@@ -27,7 +22,6 @@ export const Add=(data)=>{
 export const Edit=(data)=>{
   return axios.request({
     url: 'api/Permission/Edit',
-    headers: {Authorization:"Bearer "+token},
     data,
     method: 'post'
   })
@@ -37,7 +31,6 @@ export const Edit=(data)=>{
 export const Delete=(id)=>{
   return axios.request({
     url: 'api/Permission/Delete/'+id,
-    headers: {Authorization:"Bearer "+token},
     method: 'post'
   })
 }

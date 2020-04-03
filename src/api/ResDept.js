@@ -1,14 +1,9 @@
 import axios from '@/libs/api.request'
-import store from '@/store'
 
-var token = store.state.user.token;
 
 export const getList = (data) => {
   return axios.request({
     url: 'api/ResDept/GetList',
-    headers: {
-      Authorization: "Bearer " + token
-    },
     data: data,
     method: 'post'
   })
@@ -18,9 +13,6 @@ export const getList = (data) => {
 export const getChildList = (id) => {
   return axios.request({
     url: 'api/ResDept/GetChildList/' + id,
-    headers: {
-      Authorization: "Bearer " + token
-    },
     method: 'post'
   })
 }
@@ -30,9 +22,6 @@ export const Add = (model) => {
   const data = model;
   return axios.request({
     url: 'api/ResDept/Add',
-    headers: {
-      Authorization: "Bearer " + token
-    },
     data,
     method: 'post'
   })
@@ -43,9 +32,6 @@ export const Edit = (model) => {
   const data = model;
   return axios.request({
     url: 'api/ResDept/Edit',
-    headers: {
-      Authorization: "Bearer " + token
-    },
     data,
     method: 'post'
   })
@@ -55,9 +41,6 @@ export const Edit = (model) => {
 export const Delete = (id) => {
   return axios.request({
     url: 'api/ResDept/Delete/' + id,
-    headers: {
-      Authorization: "Bearer " + token
-    },
     method: 'post'
   })
 }
@@ -66,9 +49,6 @@ export const Delete = (id) => {
 export const Get = (data) => {
   return axios.request({
     url: 'api/ResDept/Get',
-    headers: {
-      Authorization: "Bearer " + token
-    },
     data,
     method: 'post'
   })

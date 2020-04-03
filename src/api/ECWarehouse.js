@@ -1,15 +1,10 @@
 import axios from '@/libs/api.request'
-import store from '@/store'
 
-var token = store.state.user.token;
 
 // 列表
 export const getList = (data) => {
   return axios.request({
     url: 'api/ECWarehouse/GetList/',
-    headers: {
-      Authorization: "Bearer " + token
-    },
     method: 'POST',
     data,
   })
@@ -19,9 +14,6 @@ export const getList = (data) => {
 export const Get = (data) => {
   return axios.request({
     url: 'api/ECWarehouse/Get/',
-    headers: {
-      Authorization: "Bearer " + token
-    },
     method: 'POST',
     data,
   })

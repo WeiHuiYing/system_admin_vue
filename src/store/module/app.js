@@ -9,9 +9,11 @@ import {
   routeEqual,
   getRouteTitleHandled,
   localSave,
-  localRead
+  localRead,
+  backendMenusToRouters,
+  getUserMenuByRouter
 } from '@/libs/util'
-import { saveErrorLogger } from '@/api/data'
+import {getList as getRouterReq } from '@/api/ResMenus'
 import router from '@/router'
 import routers from '@/router/routers'
 import config from '@/config'
@@ -32,10 +34,12 @@ export default {
     homeRoute: {},
     local: localRead('local'),
     errorList: [],
-    hasReadErrorPage: false
+    hasReadErrorPage: false,
+    routers: [],//拿到的路由数据
+    hasGetRouter: false//是否已经拿过路由数据
   },
   getters: {
-    menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
+    menuList: (state, getters, rootState) => getUserMenuByRouter(routers.concat(state.routers)),
     errorCount: state => state.errorList.length
   },
   mutations: {
@@ -80,27 +84,40 @@ export default {
       localSave('local', lang)
       state.local = lang
     },
-    addError (state, error) {
-      state.errorList.push(error)
-    },
     setHasReadErrorLoggerStatus (state, status = true) {
       state.hasReadErrorPage = status
+    },
+    //设置路由数据
+    setRouters(state, routers) {
+      state.routers = routers
+    },
+    //设置是否已经拿过路由
+    setHasGetRouter(state, status) {
+      state.hasGetRouter = status
     }
   },
   actions: {
-    addErrorLog ({ commit, rootState }, info) {
-      if (!window.location.href.includes('error_logger_page')) commit('setHasReadErrorLoggerStatus', false)
-      const { user: { token, userId, userName } } = rootState
-      let data = {
-        ...info,
-        time: Date.parse(new Date()),
-        token,
-        userId,
-        userName
-      }
-      saveErrorLogger(info).then(() => {
-        commit('addError', data)
+    /**
+     * 获取系统路由
+     * @param commit
+     * @returns {Promise<unknown>}
+     */
+    getRouters({commit}) {
+      return new Promise((resolve, reject) => {
+        try {
+          getRouterReq().then(res => {
+            console.log(res)
+            let routers = backendMenusToRouters(res.data.data)
+            commit('setRouters', routers)
+            commit('setHasGetRouter', true)
+            resolve(routers)
+          }).catch(err => {
+            reject(err)
+          })
+        } catch (error) {
+          reject(error)
+        }
       })
-    }
+    },
   }
 }

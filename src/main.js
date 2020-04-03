@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import iView from 'view-design'
+import 'view-design/dist/styles/iview.css';
 import i18n from '@/locale'
 import config from '@/config'
 import importDirective from '@/directive'

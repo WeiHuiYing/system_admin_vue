@@ -430,3 +430,67 @@ export const setTitle = (routeItem, vm) => {
   const resTitle = pageTitle ? `${title} - ${pageTitle}` : title
   window.document.title = resTitle
 }
+
+// 对后端返回的路由数据递归处理，形成vue的路由
+export const backendMenusToRouters = (menus) => {
+  let routers = []
+  forEach(menus, (menu) => {
+    // 将后端数据转换成路由数据
+    let route = backendMenuToRoute(menu)
+    // 如果后端数据有下级，则递归处理下级
+    if (menu.children && menu.children.length !== 0) {
+      route.children = backendMenusToRouters(menu.children)
+    }
+    routers.push(route)
+  })
+  return routers
+}
+
+/**
+ * @description 将后端菜单转换为路由
+ * @param {Object} menu
+ * @returns {Object}
+ */
+const backendMenuToRoute = (menu) => {
+  // 具体内容根据自己的数据结构来定，这里需要注意的一点是
+  // 原先routers写法是component: () => import('@/view/error-page/404.vue')
+  // 经过json数据转换，这里会丢失，所以需要按照上面提过的做转换，下面只写了核心点，其他自行处理
+  let route = Object.assign({}, menu)
+  // route.component = () => import(`/* webpackChunkName: ${menu.title} */'@/${menu.component}'`)
+  route.component = () => import(`@/${menu.component}`)
+  return route
+}
+///////////////动态路由
+/**
+ * @param {Array} list 通过路由列表得到菜单列表
+ * @param access
+ * @returns {Array}
+ */
+export const getUserMenuByRouter = (list) => {
+  let res = []
+  if(list){
+  forEach(list ,item => {
+    //meta没配置，或者配置了，但hideInMenu=false
+    if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
+      let obj = {
+        icon: (item.meta && item.meta.icon) || '',
+        name: item.name,
+        meta: item.meta,
+      }
+      if(item.path){
+        obj.path = item.path
+      }
+      //有下级子元素或者showAlways=true并且还有权限访问，继续递归处理下级
+      if ((hasChild(item) || (item.meta && !item.meta.showAlways))) {
+        obj.children = getUserMenuByRouter(item.children)
+      }
+      //如果配置了href,设置href
+      if (item.meta && item.meta.href) obj.href = item.meta.href
+      //加入
+      res.push(obj)
+    }
+  })
+
+  }
+  return res
+}
