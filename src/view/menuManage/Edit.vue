@@ -44,6 +44,32 @@
             </Select>
           </FormItem>
         </Col>
+        <Col span="12">
+          <FormItem label="面包屑可见" prop="hideInBread">
+            <Select v-model="Row.hideInBread" clearable style="width:200px">
+              <Option label="是" value="false"></Option>
+              <Option label="否" value="true"></Option>
+            </Select>
+          </FormItem>
+        </Col>
+      </Row>
+      <Row>
+        <Col span="12">
+          <FormItem label="菜单栏可见" prop="hideInMenu">
+            <Select v-model="Row.hideInMenu" clearable style="width:200px">
+              <Option label="是" value="false"></Option>
+              <Option label="否" value="true"></Option>
+            </Select>
+          </FormItem>
+        </Col>
+        <Col span="12">
+          <FormItem label="缓存" prop="notCache">
+            <Select v-model="Row.notCache" clearable style="width:200px">
+              <Option label="是" value="false"></Option>
+              <Option label="否" value="true"></Option>
+            </Select>
+          </FormItem>
+        </Col>
       </Row>
       <Row>
         <Col span="24">
@@ -118,7 +144,7 @@ export default {
               const code = resData.code;
               const msg = resData.msg;
               if (code == 200) {
-                this.$Message.info("添加成功");
+                this.$Message.info(msg);
                 this.parent.modelEdit = false;
                 this.parent.loadData();
               } else {
@@ -145,7 +171,7 @@ export default {
               const code = resData.code;
               const msg = resData.msg;
               if (code == 200) {
-                this.$Message.info("添加成功");
+                this.$Message.info(msg);
                 this.parent.modelEdit = false;
                 this.parent.loadData();
               } else {
