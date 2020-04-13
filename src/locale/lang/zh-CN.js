@@ -23,5 +23,13 @@ export default {
   SalesTotal: '销售汇总报表',
   HairWeftStyleSale: '发帘发块分款式销售占比',
   OrderRatio: '单条订单与多条订单对比',
-  ChannelLevelSalesCount: '各店铺各等级产品销量汇总'
+  ChannelLevelSalesCount: '各店铺各等级产品销量汇总',
+  Order: '订单相关',
+  LogisticsQuery: '订单物流查询',
+  PayPalList: "PayPal交易记录",
+  AliexpressList: '速卖通放款信息',
+  AmazonList: "Amazon交易记录",
+  DongHengList: "东恒成本价",
+  RepeatPurchaseList: "复购列表",
+  FinancialSummaryList: "财务汇总报表"
 }

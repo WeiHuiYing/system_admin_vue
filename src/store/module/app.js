@@ -13,11 +13,15 @@ import {
   backendMenusToRouters,
   getUserMenuByRouter
 } from '@/libs/util'
-import {getList as getRouterReq } from '@/api/ResMenus'
+import {
+  getList as getRouterReq
+} from '@/api/ResMenus'
 import router from '@/router'
 import routers from '@/router/routers'
 import config from '@/config'
-const { homeName } = config
+const {
+  homeName
+} = config
 
 const closePage = (state, route) => {
   const nextRoute = getNextRoute(state.tagNavList, route)
@@ -35,21 +39,21 @@ export default {
     local: localRead('local'),
     errorList: [],
     hasReadErrorPage: false,
-    routers: [],//拿到的路由数据
-    hasGetRouter: false//是否已经拿过路由数据
+    routers: [], //拿到的路由数据
+    hasGetRouter: false //是否已经拿过路由数据
   },
   getters: {
     menuList: (state, getters, rootState) => getUserMenuByRouter(routers.concat(state.routers)),
     errorCount: state => state.errorList.length
   },
   mutations: {
-    setBreadCrumb (state, route) {
+    setBreadCrumb(state, route) {
       state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },
-    setHomeRoute (state, routes) {
+    setHomeRoute(state, routes) {
       state.homeRoute = getHomeRoute(routes, homeName)
     },
-    setTagNavList (state, list) {
+    setTagNavList(state, list) {
       let tagList = []
       if (list) {
         tagList = [...list]
@@ -63,13 +67,16 @@ export default {
       state.tagNavList = tagList
       setTagNavListInLocalstorage([...tagList])
     },
-    closeTag (state, route) {
+    closeTag(state, route) {
       let tag = state.tagNavList.filter(item => routeEqual(item, route))
       route = tag[0] ? tag[0] : null
       if (!route) return
       closePage(state, route)
     },
-    addTag (state, { route, type = 'unshift' }) {
+    addTag(state, {
+      route,
+      type = 'unshift'
+    }) {
       let router = getRouteTitleHandled(route)
       if (!routeHasExist(state.tagNavList, router)) {
         if (type === 'push') state.tagNavList.push(router)
@@ -80,11 +87,11 @@ export default {
         setTagNavListInLocalstorage([...state.tagNavList])
       }
     },
-    setLocal (state, lang) {
+    setLocal(state, lang) {
       localSave('local', lang)
       state.local = lang
     },
-    setHasReadErrorLoggerStatus (state, status = true) {
+    setHasReadErrorLoggerStatus(state, status = true) {
       state.hasReadErrorPage = status
     },
     //设置路由数据
@@ -102,11 +109,12 @@ export default {
      * @param commit
      * @returns {Promise<unknown>}
      */
-    getRouters({commit}) {
+    getRouters({
+      commit
+    }) {
       return new Promise((resolve, reject) => {
         try {
           getRouterReq().then(res => {
-            console.log(res)
             let routers = backendMenusToRouters(res.data.data)
             commit('setRouters', routers)
             commit('setHasGetRouter', true)

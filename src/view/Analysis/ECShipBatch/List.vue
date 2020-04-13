@@ -136,7 +136,10 @@ export default {
   methods: {
     loadData() {
       let _this = this;
-      let data = {};
+      let data = {
+        pageNum: _this.pageCurrent,
+        pageSize: _this.pageSize
+      };
       _this.tableLoading = true;
       getList(data).then(res => {
         _this.tableLoading = false;

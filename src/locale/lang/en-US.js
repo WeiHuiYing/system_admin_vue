@@ -23,5 +23,13 @@ export default {
   SalesTotal: 'SalesTotalAnalysis',
   HairWeftStyleSale: 'WeavingBlockSalesRatio',
   OrderRatio: 'SingleOrderVSMultipleOrders ',
-  ChannelLevelSalesCount: 'ChannelLevelSalesCount'
+  ChannelLevelSalesCount: 'ChannelLevelSalesCount',
+  Order: 'Order',
+  LogisticsQuery: 'LogisticsQuery',
+  PayPalList: "PayPalTransactions",
+  AliexpressList: 'AliexpressInformation',
+  AmazonList: "AmazonTransactions",
+  DongHengList: "DongHengCost",
+  RepeatPurchaseList: "RepeatPurchaseList",
+  FinancialSummaryList: "FinancialSummary"
 }

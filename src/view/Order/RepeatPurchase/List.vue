@@ -3,17 +3,10 @@
     <div class="search-con search-con-top">
       <Row>
         <Col :span="20">
-          <Form ref="formInline" label-position="right" :label-width="60" inline>
-            <FormItem label="sku">
-              <Input clearable class="search-input" v-model="filters.singleSku" />
-            </FormItem>
-            <FormItem label="仓库">
-              <Select v-model="filters.warehouseId" style="width:200px" clearable>
-                <Option
-                  v-for="item in warehouseList"
-                  :value="item.warehouseId"
-                  :key="item.warehouseId"
-                >{{ item.warehouseDesc }}</Option>
+          <Form ref="formInline" label-position="right" :label-width="100" inline>
+            <FormItem label="平台">
+              <Select v-model="filters.plateName" style="width:200px" clearable>
+                <Option v-for="(item,index) in plateList" :value="item" :key="index">{{ item }}</Option>
               </Select>
             </FormItem>
             <FormItem>
@@ -23,19 +16,26 @@
         </Col>
         <Col :span="4">
           <Upload
-            action="api/BnsUsBaseInventory/import/"
+            action="/api/FinancialStatement/ImportRepeatCust"
             name="excelFile"
             :headers="upHeaders"
             accept=".xls, .xlsx"
             :show-upload-list="false"
             :on-success="handleSuccess"
           >
-            <Button :loading="uploadLoading">导入库存表</Button>
+            <Button :loading="uploadLoading">导入复购客户</Button>
           </Upload>
         </Col>
       </Row>
     </div>
-    <Table ref="tables" height="700" :data="listData" v-bind:columns="listColums" stripe></Table>
+    <Table
+      height="700"
+      ref="tables"
+      :loading="tableLoading"
+      :data="listData"
+      v-bind:columns="listColumns"
+      stripe
+    ></Table>
     <div style="margin: 10px;overflow: hidden">
       <div style="float: right;">
         <Page
@@ -53,93 +53,108 @@
 </template>
 
 <script>
-import { getUsBase as getList } from "@/api/Analysis";
-import { getList as getWareList } from "@/api/ECWarehouse";
+import {
+  GetRepeatCustList as getList,
+  GetPlateform as getPlateform
+} from "@/api/Order";
 import store from "@/store";
 export default {
   data() {
     return {
-      listColums: [
-        {
-          title: "数量",
-          key: "qty"
-        },
-        {
-          title: "标签",
-          key: "tagType"
-        },
-        {
-          title: "sku",
-          key: "productSku"
-        }
-      ],
-      listData: [],
       filters: {
-        productSku: "",
-        warehouseId: ""
+        plateName: ""
       },
-      pageTotal: 1,
-      pageCurrent: 1,
-      pageSize: 10,
-      warehouseList: [],
+      listData: [],
+      plateList: [],
       uploadLoading: false,
       upHeaders: {
         Authorization: "Bearer " + store.state.user.token
-      }
+      },
+      listColumns: [
+        {
+          title: "平台",
+          key: "plateForm"
+        },
+        {
+          title: "店铺",
+          key: "storeName"
+        },
+        {
+          title: "处理月份",
+          key: "dealMonth"
+        },
+        {
+          title: "邮箱",
+          key: "email"
+        },
+        {
+          title: "平台编码",
+          key: "plateFormCode"
+        },
+        {
+          title: "金额",
+          key: "amount"
+        },
+        {
+          title: "付款时间",
+          key: "fkDate"
+        },
+        {
+          title: "付款类型",
+          key: "fkType"
+        }
+      ],
+      pageTotal: 1,
+      pageCurrent: 1,
+      pageSize: 10,
+      tableLoading: false
     };
   },
   methods: {
     loadData() {
       let _this = this;
-      if (!_this.pageCurrent) _this.pageCurrent = 1;
-      let filtersquery = [];
-      let filtersSku = {};
-      let filtersWare = {};
-      if (!_this.filters.singleSku == "") {
-        filtersSku = {
-          key: "singleSku",
+      let filtersQuery = [];
+      if (_this.filters.plateName != "") {
+        filtersQuery.push({
+          key: "plateName",
           binaryop: "eq",
-          value: _this.filters.singleSku,
+          value: _this.filters.plateName,
           andorop: "and"
-        };
-        filtersquery.push(filtersSku);
-      }
-      if (!_this.filters.warehouseId == "") {
-        filtersWare = {
-          key: "warehouseId",
-          binaryop: "eq",
-          value: _this.filters.warehouseId,
-          andorop: "and"
-        };
-        filtersquery.push(filtersWare);
+        });
       }
       let data = {
-        query: filtersquery
+        pageNum: _this.pageCurrent,
+        pageSize: _this.pageSize,
+        query: filtersQuery
       };
+      _this.tableLoading = true;
       getList(data)
         .then(res => {
-          if (res.data.code == 200) {
-            _this.listData = res.data.data;
-            _this.pageTotal = res.data.count;
+          _this.tableLoading = false;
+          const resData = res.data;
+          if (res.status == 200) {
+            _this.listData = resData.data;
+            _this.pageTotal = resData.totalCount;
           } else {
             this.$Message.error({
-              content: res.data.msg,
+              content: resData.msg,
               duration: 10,
               closable: true
             });
           }
         })
         .catch(err => {
+          _this.tableLoading = false;
           console.log(err);
         });
     },
-    loadWare() {
+    plateLoad() {
       let _this = this;
-      let data = {};
-      getWareList(data)
+      getPlateform()
         .then(res => {
-          if (res.data.code == 200) {
-            _this.warehouseList = res.data.data;
+          console.log(res);
+          if (res.status == 200) {
+            _this.plateList = res.data;
           } else {
             this.$Message.error({
               content: res.data.msg,
@@ -157,16 +172,17 @@ export default {
       _this.pageCurrent = val;
       _this.loadData();
     },
-    changePageSize(size) {
+    changePageSize(val) {
       let _this = this;
-      _this.pageSize = size;
+      _this.pageSize = val;
       _this.loadData();
     },
     handleSuccess(response, file, fileList) {
+      let _this = this;
       if (response.code == 200) {
-        this.loadData();
+        _this.loadData();
         this.$Message.info({
-          content: "上传成功",
+          content: response.msg,
           duration: 10,
           closable: true
         });
@@ -181,9 +197,10 @@ export default {
   },
   mounted() {
     this.loadData();
-    this.loadWare();
+    this.plateLoad();
   }
 };
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+</style>

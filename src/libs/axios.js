@@ -1,13 +1,15 @@
 import axios from 'axios'
-import { getToken } from '@/libs/util'
+import {
+  getToken
+} from '@/libs/util'
 // import { Spin } from 'iview'
-var token=getToken();
+var token = getToken();
 class HttpRequest {
-  constructor (baseUrl = baseURL) {
+  constructor(baseUrl = baseURL) {
     this.baseUrl = baseUrl
     this.queue = {}
   }
-  getInsideConfig () {
+  getInsideConfig() {
     const config = {
       baseURL: this.baseUrl,
       headers: {
@@ -15,18 +17,18 @@ class HttpRequest {
       }
     }
     //全局请求头 cts 添加
-    if(token){
-      config.headers.Authorization ="Bearer "+token;
+    if (token) {
+      config.headers.Authorization = "Bearer " + token;
     }
     return config
   }
-  destroy (url) {
+  destroy(url) {
     delete this.queue[url]
     if (!Object.keys(this.queue).length) {
       // Spin.hide()
     }
   }
-  interceptors (instance, url) {
+  interceptors(instance, url) {
     // 请求拦截
     instance.interceptors.request.use(config => {
       // 添加全局的loading...
@@ -41,30 +43,44 @@ class HttpRequest {
     // 响应拦截
     instance.interceptors.response.use(res => {
       this.destroy(url)
-      const { data, status } = res
-      return { data, status }
+      const {
+        data,
+        status
+      } = res
+      return {
+        data,
+        status
+      }
     }, error => {
       this.destroy(url)
       let errorInfo = error.response
       if (!errorInfo) {
-        const { request: { statusText, status }, config } = JSON.parse(JSON.stringify(error))
+        const {
+          request: {
+            statusText,
+            status
+          },
+          config
+        } = JSON.parse(JSON.stringify(error))
         errorInfo = {
           statusText,
           status,
-          request: { responseURL: config.url }
+          request: {
+            responseURL: config.url
+          }
         }
       }
-        //cts add
-      if(errorInfo.status=="401"&&window.location.hash=='#login'){
+      //cts add
+      if (errorInfo.status == "401" && window.location.hash == '#login') {
         return Promise.reject(error);
       }
-      if(errorInfo.status=="401"){
+      if (errorInfo.status == "401") {
         window.location.reload();
       }
       return Promise.reject(error)
     })
   }
-  request (options) {
+  request(options) {
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url)

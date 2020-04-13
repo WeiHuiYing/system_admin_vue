@@ -3,10 +3,16 @@ import Router from 'vue-router'
 import routes from './routers'
 import store from '@/store'
 import iView from 'iview'
-import {setToken, getToken, setTitle} from '@/libs/util'
+import {
+  setToken,
+  getToken,
+  setTitle
+} from '@/libs/util'
 import config from '@/config'
 
-const {homeName} = config
+const {
+  homeName
+} = config
 
 Vue.use(Router)
 const router = new Router({
@@ -19,12 +25,8 @@ const initRouters = (store) => {
   //这个人登录了已经
   if (store.state.user.hasGetInfo) {
     //路由加载过了
-    console.log(store.state.app.hasGetRouter,store.state.app.routers)
-    if (store.state.app.hasGetRouter && store.state.app.routers && store.state.app.routers.length > 0) {
-      console.log("已经加载过了路由")
-    } else {
+    if (store.state.app.hasGetRouter && store.state.app.routers && store.state.app.routers.length > 0) {} else {
       //加载路由
-      console.log("开始加载路由权限...")
       store.dispatch('getRouters').then(routers => {
         //此处routers已经是按照权限过滤后的路由了，没权限的，不加入路由，无法访问
         //路由重置一下把404放最后
@@ -42,9 +44,8 @@ const initRouters = (store) => {
           },
           component: () => import('@/view/error-page/404.vue')
         }]))
-        console.log(router)
       }).finally(() => {
-        
+
       })
     }
   }

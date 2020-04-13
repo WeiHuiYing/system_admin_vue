@@ -5,6 +5,9 @@ export const componentList = [{
     name: "Analysis",
   },
   {
+    name: "Order",
+  },
+  {
     name: "BnsUsBaseInventory",
   },
   {
@@ -86,6 +89,34 @@ export const componentList = [{
   {
     component: "view/Analysis/ECShipBatch/List.vue",
     name: "ECShipBatch_page"
+  },
+  {
+    component: "view/Order/Logistics/Query.vue",
+    name: "LogisticsQuery"
+  },
+  {
+    component: "view/Order/PayPal/List.vue",
+    name: "PayPalList"
+  },
+  {
+    component: "view/Order/Aliexpress/List.vue",
+    name: "AliexpressList"
+  },
+  {
+    component: "view/Order/Amazon/List.vue",
+    name: "AmazonList"
+  },
+  {
+    component: "view/Order/DongHeng/List.vue",
+    name: "DongHengList"
+  },
+  {
+    component: "view/Order/RepeatPurchase/List.vue",
+    name: "RepeatPurchaseList"
+  },
+  {
+    component: "view/Order/FinancialSummary/List.vue",
+    name: "FinancialSummaryList"
   },
 ]
 
