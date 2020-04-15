@@ -11,10 +11,9 @@
             </FormItem>
             <FormItem>
               <Upload
-                action="/api/FinancialStatement/ImportAliLoan/"
+                :action="'/api/FinancialStatement/ImportAliLoan?shopName='+upData.shopName"
                 name="excelFile"
                 :headers="upHeaders"
-                :data="upData"
                 accept=".xls, .xlsx"
                 :show-upload-list="false"
                 :on-success="handleSuccess"
@@ -54,7 +53,11 @@ export default {
       listColums: [
         {
           title: "平台单号",
-          key: "PlateformCode"
+          key: "plateformCode"
+        },
+        {
+          title: "店铺",
+          key: "storeName"
         },
         {
           title: "放款时间",
@@ -92,7 +95,6 @@ export default {
       let _this = this;
       getShopList()
         .then(res => {
-          console.log(res);
           if (res.status == 200) {
             _this.shopList = res.data;
           } else {
@@ -135,7 +137,7 @@ export default {
       if (response.code == 200) {
         _this.listData = response.data;
         this.$Message.info({
-          content: "上传成功",
+          content: response.msg,
           duration: 10,
           closable: true
         });

@@ -144,7 +144,6 @@ export default {
       _this.tableLoading = true;
       getList(data)
         .then(res => {
-          console.log(res);
           const resData = res.data;
           _this.tableLoading = false;
           if (resData.code == 200) {

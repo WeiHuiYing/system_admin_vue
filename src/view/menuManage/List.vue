@@ -119,7 +119,6 @@ export default {
     loadData() {
       let _this = this;
       getList().then(res => {
-        console.log(res);
         const resData = res.data;
         _this.listData = resData.data;
       });
@@ -133,7 +132,6 @@ export default {
     handleDelete(params) {
       let _this = this;
       deleteMenus(params.row.id).then(res => {
-        console.log(res);
         const resData = res.data;
         const data = resData.data;
         const code = resData.code;

@@ -121,14 +121,7 @@ export default {
             trigger: "blur"
           }
         ],
-        classNanme: [
-          {
-            required: true,
-            message: "请输入任务所在类",
-            trigger: "blur"
-          }
-        ],
-        url: [
+        className: [
           {
             required: true,
             message: "请输入任务所在类",

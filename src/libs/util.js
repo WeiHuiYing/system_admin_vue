@@ -468,28 +468,28 @@ const backendMenuToRoute = (menu) => {
  */
 export const getUserMenuByRouter = (list) => {
   let res = []
-  if(list){
-  forEach(list ,item => {
-    //meta没配置，或者配置了，但hideInMenu=false
-    if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
-      let obj = {
-        icon: (item.meta && item.meta.icon) || '',
-        name: item.name,
-        meta: item.meta,
+  if (list) {
+    forEach(list, item => {
+      //meta没配置，或者配置了，但hideInMenu=false
+      if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
+        let obj = {
+          icon: (item.meta && item.meta.icon) || '',
+          name: item.name,
+          meta: item.meta,
+        }
+        if (item.path) {
+          obj.path = item.path
+        }
+        //有下级子元素或者showAlways=true并且还有权限访问，继续递归处理下级
+        if ((hasChild(item) || (item.meta && !item.meta.showAlways))) {
+          obj.children = getUserMenuByRouter(item.children)
+        }
+        //如果配置了href,设置href
+        if (item.meta && item.meta.href) obj.href = item.meta.href
+        //加入
+        res.push(obj)
       }
-      if(item.path){
-        obj.path = item.path
-      }
-      //有下级子元素或者showAlways=true并且还有权限访问，继续递归处理下级
-      if ((hasChild(item) || (item.meta && !item.meta.showAlways))) {
-        obj.children = getUserMenuByRouter(item.children)
-      }
-      //如果配置了href,设置href
-      if (item.meta && item.meta.href) obj.href = item.meta.href
-      //加入
-      res.push(obj)
-    }
-  })
+    })
 
   }
   return res

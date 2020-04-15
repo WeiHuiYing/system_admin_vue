@@ -301,7 +301,6 @@ export default {
       };
       GetPage(data)
         .then(res => {
-          console.log(res);
           _this.listData = res.data.data;
           _this.pageTotal = res.data.count;
         })
@@ -389,7 +388,6 @@ export default {
         });
     },
     changePage(val) {
-      console.log(val);
       let _this = this;
       _this.pageCurrent = val;
       _this.loadData();

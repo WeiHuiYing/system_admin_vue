@@ -35,7 +35,6 @@ export default {
       let _this = this;
       getPermissions(_this.Row.id)
         .then(res => {
-          console.log(res);
           const resData = res.data;
           const data = resData.data;
           const code = resData.code;

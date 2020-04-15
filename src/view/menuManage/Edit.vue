@@ -164,7 +164,6 @@ export default {
         if (r) {
           let data = JSON.parse(JSON.stringify(this.Row));
           delete data.meta;
-          console.log(data);
           editMenus(data)
             .then(res => {
               const resData = res.data;

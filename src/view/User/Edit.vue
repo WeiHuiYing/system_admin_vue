@@ -137,7 +137,6 @@ export default {
       let data = {};
       getRoles(data)
         .then(res => {
-          console.log(res);
           const resData = res.data;
           const data = resData.data;
           this.Roles = data;
@@ -155,7 +154,6 @@ export default {
       let data = {};
       getDepts(data)
         .then(res => {
-          console.log(res);
           const resData = res.data;
           const data = resData.data;
           this.Depts = data;
@@ -205,7 +203,6 @@ export default {
     },
     // 部门操作
     deptTreeChange(data) {
-      console.log(data);
       var item0 = data[0];
       this.Row.deptName = item0.title;
       this.Row.deptId = item0.id;
@@ -246,7 +243,6 @@ export default {
           delete _this.Row.UserRoles;
           editUser(_this.Row)
             .then(res => {
-              console.log(res);
               if (res.data.code === 200) {
                 this.$Message.info("编辑成功");
                 this.parent.modelEdit = false;
@@ -270,7 +266,6 @@ export default {
           delete _this.Row.UserRoles;
           addUser(_this.Row)
             .then(res => {
-              console.log(res);
               if (res.data.code === 200) {
                 this.$Message.info("编辑成功");
                 this.parent.modelEdit = false;

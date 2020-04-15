@@ -47,7 +47,7 @@
                 <Icon type="search" />&nbsp;&nbsp;搜索
               </Button>
               <Button @click="filtersData()" class="search-btn" type="primary">
-                <Icon type="search" />&nbsp;&nbsp;筛选
+                <Icon type="search" />&nbsp;&nbsp;更多筛选
               </Button>
             </FormItem>
           </Form>
@@ -877,7 +877,7 @@ export default {
       if (_this.filters.storeName != "") {
         let storeObj = {
           key: "storeName",
-          binaryop: "like",
+          binaryop: "eq",
           value: _this.filters.storeName,
           andorop: "and"
         };
@@ -1042,7 +1042,6 @@ export default {
     }
   },
   mounted() {
-    this.loadData();
     this.selectLoad();
   }
 };

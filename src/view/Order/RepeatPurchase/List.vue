@@ -152,7 +152,6 @@ export default {
       let _this = this;
       getPlateform()
         .then(res => {
-          console.log(res);
           if (res.status == 200) {
             _this.plateList = res.data;
           } else {

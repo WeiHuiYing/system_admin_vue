@@ -198,7 +198,6 @@ export default {
       _this.tableData = [];
       _this.tableLoading = true;
       getPage(data).then(res => {
-        console.log(res)
         _this.tableLoading = false;
         const resData = res.data;
         if(resData.code === 200){
@@ -237,7 +236,6 @@ export default {
         content: "<p>确定要删除[" + row.roleName + "]?</p>",
         onOk: () => {
           deleteRole(row.id).then(res=>{
-            console.log(res)
             const resData = res.data;
             if(resData.code === 200){
               this.$Message.info("删除成功");

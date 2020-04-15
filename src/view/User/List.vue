@@ -203,7 +203,6 @@ export default {
       };
       getList(data)
         .then(res => {
-          console.log(res);
           if (res.data.code == 200) {
             _this.listData = res.data.data;
             _this.pageTotal = res.data.count;
@@ -227,7 +226,6 @@ export default {
         onOk: () => {
           deleteUser(params.row.id)
             .then(res => {
-              console.log(res);
               const resData = res.data;
               if (resData.code == 200) {
                 this.$Message.info("删除成功");
@@ -258,7 +256,6 @@ export default {
       _this.modelPermission = true;
     },
     changePage(val) {
-      console.log(val);
       let _this = this;
       _this.pageCurrent = val;
       _this.loadData();
