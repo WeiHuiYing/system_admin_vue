@@ -81,3 +81,10 @@ export const GetFinancialStatement = (data) => {
     data,
   })
 }
+export const ExportFinancialStatement = (data) => {
+  return axios.request({
+    url: 'api/FinancialStatement/ExportFinancialStatement',
+    method: 'POST',
+    data,
+  })
+}

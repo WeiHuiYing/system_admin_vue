@@ -17,8 +17,8 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    dev: 'http://report.bitcoding.top:8888/',
-    pro: 'http://report.bitcoding.top:8888/'
+    dev: 'http://8000.bitcoding.top:8888/',
+    pro: 'http://8000.bitcoding.top:8888/'
     /* dev: 'http://howard.ngrok.bitcoding.top/',
     pro: 'http://howard.ngrok.bitcoding.top/' */
     // dev: 'http://192.168.1.202:8916/',

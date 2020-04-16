@@ -3,9 +3,12 @@
     <div class="search-con search-con-top">
       <Row>
         <Col :span="24">
-          <Form ref="formInline" label-position="right" :label-width="60" inline>
+          <Form ref="formInline" label-position="right" :label-width="100" inline>
             <FormItem label="交易号">
               <Input clearable class="search-input" v-model="filters.transactionInfoTransactionId" />
+            </FormItem>
+            <FormItem label="原始平台账单号">
+              <Input clearable class="search-input" v-model="filters.TransactionInfoInvoiceId" />
             </FormItem>
             <FormItem>
               <Button @click="loadData()" class="search-btn" type="primary">搜索</Button>
@@ -58,10 +61,16 @@ export default {
   data() {
     return {
       filters: {
+        TransactionInfoInvoiceId: "",
         transactionInfoTransactionId: ""
       },
       listData: [],
       listColumns: [
+        {
+          title: "原始平台账单号",
+          key: "transactionInfoInvoiceId",
+          width: "200"
+        },
         {
           title: "交易号",
           key: "transactionInfoTransactionId",
@@ -147,6 +156,14 @@ export default {
     loadData() {
       let _this = this;
       let filtersQuery = [];
+      if (_this.filters.TransactionInfoInvoiceId != "") {
+        filtersQuery.push({
+          key: "TransactionInfoInvoiceId",
+          binaryop: "eq",
+          value: _this.filters.TransactionInfoInvoiceId,
+          andorop: "and"
+        });
+      }
       if (_this.filters.transactionInfoTransactionId != "") {
         filtersQuery.push({
           key: "transactionInfoTransactionId",

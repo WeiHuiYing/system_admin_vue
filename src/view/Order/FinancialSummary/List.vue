@@ -53,13 +53,14 @@
           </Form>
         </Col>
         <Col :span="4">
-          <Dropdown v-if="selectionList.length > 0" placement="bottom-start" @on-click="handleMenu">
+          <Dropdown placement="bottom-start" @on-click="handleMenu">
             <Button type="primary">
               操作
               <Icon type="ios-arrow-down"></Icon>
             </Button>
             <DropdownMenu slot="list">
-              <DropdownItem name="export">导出</DropdownItem>
+              <DropdownItem name="exportAll">导出全部数据</DropdownItem>
+              <DropdownItem name="exportPart">导出选中数据</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Col>
@@ -79,6 +80,7 @@
         <Page
           :total="pageTotal"
           :current="pageCurrent"
+          :page-size="pageSize"
           @on-change="changePage"
           @on-page-size-change="changePageSize"
           show-total
@@ -145,8 +147,8 @@
             <Option value="服装">服装</Option>
           </Select>
         </FormItem>
-        <FormItem prop="procutCategoryName2" label="二级品类">
-          <Input clearable class="search-input" v-model="filters.procutCategoryName2" />
+        <FormItem prop="procutCategoryName1" label="二级品类">
+          <Input clearable class="search-input" v-model="filters.procutCategoryName1" />
         </FormItem>
         <FormItem prop="orderType" label="订单类型">
           <Select v-model="filters.orderType" clearable style="width:150px">
@@ -251,7 +253,8 @@
 import {
   GetFinancialStatement as getList,
   GetPlateform,
-  GetShop
+  GetShop,
+  ExportFinancialStatement as exportStatement
 } from "@/api/Order";
 import { getList as getWare } from "@/api/ECWarehouse";
 import Detils from "./Detils";
@@ -269,7 +272,7 @@ export default {
         wareHouseDesc: "",
         productSku: "",
         procutCategoryName: "",
-        procutCategoryName2: "",
+        procutCategoryName1: "",
         orderType: "",
         status: "",
         shippingStart: "",
@@ -769,7 +772,7 @@ export default {
       ],
       pageTotal: 1,
       pageCurrent: 1,
-      pageSize: 10,
+      pageSize: 50,
       tableLoading: false,
       detilsRow: {},
       modelDetils: false,
@@ -784,6 +787,34 @@ export default {
     loadData() {
       let _this = this;
       let data = {};
+      let filterQuery = _this.filtersObj();
+      data = {
+        pageNum: _this.pageCurrent,
+        pageSize: _this.pageSize,
+        query: filterQuery
+      };
+      _this.tableLoading = true;
+      getList(data)
+        .then(res => {
+          const resData = res.data;
+          _this.tableLoading = false;
+          if (resData.code == 200) {
+            _this.listData = resData.data;
+            _this.pageTotal = resData.totalCount;
+          } else {
+            this.$Message.error({
+              content: resData.msg,
+              duration: 10,
+              closable: true
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    filtersObj() {
+      let _this = this;
       let filterQuery = [];
       let filterLoandate = _this.filtersDate(
         "Loandate",
@@ -828,14 +859,14 @@ export default {
         };
         filterQuery.push(CategoryObj);
       }
-      if (_this.filters.procutCategoryName2 != "") {
-        let Category2Obj = {
-          key: "procutCategoryName2",
+      if (_this.filters.procutCategoryName1 != "") {
+        let Category1Obj = {
+          key: "procutCategoryName1",
           binaryop: "like",
-          value: _this.filters.procutCategoryName2,
+          value: _this.filters.procutCategoryName1,
           andorop: "and"
         };
-        filterQuery.push(Category2Obj);
+        filterQuery.push(Category1Obj);
       }
 
       if (_this.filters.orderType != "") {
@@ -886,36 +917,13 @@ export default {
       if (_this.filters.RefNo != "") {
         let RefNoObj = {
           key: "RefNo",
-          binaryop: "like",
+          binaryop: "eq",
           value: _this.filters.RefNo,
           andorop: "and"
         };
         filterQuery.push(RefNoObj);
       }
-      data = {
-        pageNum: _this.pageCurrent,
-        pageSize: _this.pageSize,
-        query: filterQuery
-      };
-      _this.tableLoading = true;
-      getList(data)
-        .then(res => {
-          const resData = res.data;
-          _this.tableLoading = false;
-          if (resData.code == 200) {
-            _this.listData = resData.data;
-            _this.pageTotal = resData.totalCount;
-          } else {
-            this.$Message.error({
-              content: resData.msg,
-              duration: 10,
-              closable: true
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      return filterQuery;
     },
     selectLoad() {
       let _this = this;
@@ -1000,12 +1008,73 @@ export default {
       this.selectionList = selection;
     },
     handleMenu(name) {
-      if (name == "export") {
-        this.exportList();
+      // 导出全部数据
+      if (name == "exportAll") {
+        this.exportAll();
+        // 导出部分数据
+      } else if (name == "exportPart") {
+        this.exportPart();
       }
     },
-    exportList() {
+    exportAll() {
+      let data = {};
       let _this = this;
+      this.$Spin.show();
+      let filterQuery = _this.filtersObj();
+      data = {
+        pageNum: 1,
+        pageSize: 10,
+        query: [
+          { key: "RefNo", binaryop: "eq", value: "Pk50527", andorop: "and" }
+        ]
+      };
+      exportStatement(data).then(res => {
+        console.log("res", res);
+        const blob = new Blob([res.data]);
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onload = e => {
+          const a = document.createElement("a");
+          a.download = `报表.XLSX`;
+          a.href = e.target.result;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        };
+        // const content = res;
+        // const blob = new Blob([content.data], {
+        //   type: "application/excel"
+        // });
+        // console.log(blob);
+        // const fileName = "财务汇总报表.xlsx";
+        // if ("download" in document.createElement("a")) {
+        //   // 非IE下载
+        //   const elink = document.createElement("a");
+        //   console.log(elink);
+        //   elink.download = fileName;
+        //   elink.style.display = "none";
+        //   elink.href = URL.createObjectURL(blob);
+        //   document.body.appendChild(elink);
+        //   elink.click();
+        //   URL.revokeObjectURL(elink.href); // 释放 URL对象
+        //   document.body.removeChild(elink);
+        // } else {
+        //   // IE10+下载
+        //   navigator.msSaveBlob(blob, fileName);
+        // }
+        this.$Spin.hide();
+      });
+    },
+    exportPart() {
+      let _this = this;
+      if (_this.selectionList.length == 0) {
+        this.$Message.error({
+          content: "请选择需要导出的数据",
+          duration: 10,
+          closable: true
+        });
+        return false;
+      }
       let titleArr = [];
       let keyArr = [];
       let columnsArr = [];
