@@ -45,11 +45,11 @@ class HttpRequest {
       this.destroy(url)
       const {
         data,
-        status
+        status,
       } = res
       return {
         data,
-        status
+        status,
       }
     }, error => {
       this.destroy(url)

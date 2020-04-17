@@ -86,5 +86,6 @@ export const ExportFinancialStatement = (data) => {
     url: 'api/FinancialStatement/ExportFinancialStatement',
     method: 'POST',
     data,
+    responseType: 'blob'
   })
 }

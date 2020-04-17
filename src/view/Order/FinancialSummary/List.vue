@@ -1022,46 +1022,31 @@ export default {
       this.$Spin.show();
       let filterQuery = _this.filtersObj();
       data = {
-        pageNum: 1,
-        pageSize: 10,
-        query: [
-          { key: "RefNo", binaryop: "eq", value: "Pk50527", andorop: "and" }
-        ]
+        query: filterQuery
       };
       exportStatement(data).then(res => {
-        console.log("res", res);
-        const blob = new Blob([res.data]);
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        reader.onload = e => {
-          const a = document.createElement("a");
-          a.download = `报表.XLSX`;
-          a.href = e.target.result;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        };
-        // const content = res;
-        // const blob = new Blob([content.data], {
-        //   type: "application/excel"
-        // });
-        // console.log(blob);
-        // const fileName = "财务汇总报表.xlsx";
-        // if ("download" in document.createElement("a")) {
-        //   // 非IE下载
-        //   const elink = document.createElement("a");
-        //   console.log(elink);
-        //   elink.download = fileName;
-        //   elink.style.display = "none";
-        //   elink.href = URL.createObjectURL(blob);
-        //   document.body.appendChild(elink);
-        //   elink.click();
-        //   URL.revokeObjectURL(elink.href); // 释放 URL对象
-        //   document.body.removeChild(elink);
-        // } else {
-        //   // IE10+下载
-        //   navigator.msSaveBlob(blob, fileName);
-        // }
+        const content = res;
+        const blob = new Blob([content.data], {
+          type: "application/vnd.ms-excel"
+        });
+        console.log(blob);
+        console.log(res.Headers);
+        const fileName = "财务汇总报表";
+        if ("download" in document.createElement("a")) {
+          // 非IE下载
+          const elink = document.createElement("a");
+          elink.download = fileName;
+          elink.style.display = "none";
+          elink.href = URL.createObjectURL(blob);
+          console.log(elink);
+          document.body.appendChild(elink);
+          elink.click();
+          URL.revokeObjectURL(elink.href); // 释放 URL对象
+          document.body.removeChild(elink);
+        } else {
+          // IE10+下载
+          navigator.msSaveBlob(blob, fileName);
+        }
         this.$Spin.hide();
       });
     },
