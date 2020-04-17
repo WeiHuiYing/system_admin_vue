@@ -1031,7 +1031,7 @@ export default {
         });
         console.log(blob);
         console.log(res.Headers);
-        const fileName = "财务汇总报表";
+        const fileName = "财务汇总报表.xlsx";
         if ("download" in document.createElement("a")) {
           // 非IE下载
           const elink = document.createElement("a");
