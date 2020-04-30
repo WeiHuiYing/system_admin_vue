@@ -130,3 +130,13 @@ export const ChannelLevelSalesCount = data => {
     data
   });
 };
+
+
+// 各店铺各等级产品销量汇总
+export const UsUiceNomalSkuQty = data => {
+  return axios.request({
+    url: "api/UsUiceNomalSkuQty/GetList",
+    method: "POST",
+    data
+  });
+};

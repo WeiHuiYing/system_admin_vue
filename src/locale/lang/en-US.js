@@ -31,5 +31,7 @@ export default {
   AmazonList: "AmazonTransactions",
   DongHengList: "DongHengCost",
   RepeatPurchaseList: "RepeatPurchaseList",
-  FinancialSummaryList: "FinancialSummary"
+  FinancialSummaryList: "FinancialSummary",
+  UsUiceNomalSkuQty: "UsUiceNomalSkuQty",
+  UsUiceNomalSkuQty_page: "UsUiceNomalSkuQty"
 }

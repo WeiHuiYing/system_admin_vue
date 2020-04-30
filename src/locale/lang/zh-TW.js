@@ -31,5 +31,7 @@ export default {
   AmazonList: "Amazon交易記錄",
   DongHengList: "東恒成本價",
   RepeatPurchaseList: "復購列表",
-  FinancialSummaryList: "財務匯總報表"
+  FinancialSummaryList: "財務匯總報表",
+  UsUiceNomalSkuQty: "美國倉剩余庫存報表",
+  UsUiceNomalSkuQty_page: "美國倉剩余庫存報表",
 }

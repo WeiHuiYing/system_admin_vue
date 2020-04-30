@@ -20,8 +20,9 @@ export const componentList = [{
     name: "omsAnsList"
   },
   {
-    name: "ECShipBatch"
+    name: "UsUiceNomalSkuQty"
   },
+
   {
     component: "view/User/List.vue",
     name: "userManage"
@@ -89,6 +90,10 @@ export const componentList = [{
   {
     component: "view/Analysis/ECShipBatch/List.vue",
     name: "ECShipBatch_page"
+  },
+  {
+    component: "view/Analysis/UsUiceNomalSkuQty/List.vue",
+    name: "UsUiceNomalSkuQty_page"
   },
   {
     component: "view/Order/Logistics/Query.vue",
