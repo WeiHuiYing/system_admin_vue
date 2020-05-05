@@ -236,16 +236,6 @@
         </div>
       </Form>
     </Modal>
-    <Modal
-      title="详情"
-      :mask-closable="false"
-      v-model="modelDetils"
-      width="90%"
-      scrollable
-      footer-hide
-    >
-      <Detils ref="detils" :parent="this" :detils-row="detilsRow"></Detils>
-    </Modal>
   </div>
 </template>
 
@@ -257,7 +247,6 @@ import {
   ExportFinancialStatement as exportStatement
 } from "@/api/Order";
 import { getList as getWare } from "@/api/ECWarehouse";
-import Detils from "./Detils";
 import dayjs from "dayjs";
 import excel from "@/libs/excel";
 export default {
@@ -308,6 +297,11 @@ export default {
         {
           title: "订单类型",
           key: "orderType",
+          width: "200"
+        },
+        {
+          title: "订单成本占比",
+          key: "orderCostRatio",
           width: "200"
         },
         {
@@ -775,7 +769,6 @@ export default {
       pageSize: 50,
       tableLoading: false,
       detilsRow: {},
-      modelDetils: false,
       modelFilters: false,
       selectionList: [],
       plateList: [],
@@ -997,12 +990,6 @@ export default {
       let _this = this;
       _this.modelFilters = false;
       _this.loadData();
-    },
-    viewDetils(params) {
-      let _this = this;
-      _this.detilsRow = {};
-      _this.detilsRow = params.row;
-      _this.modelDetils = true;
     },
     tableSelect(selection) {
       this.selectionList = selection;
