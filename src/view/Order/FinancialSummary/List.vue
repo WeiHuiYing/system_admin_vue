@@ -250,9 +250,6 @@ import { getList as getWare } from "@/api/ECWarehouse";
 import dayjs from "dayjs";
 import excel from "@/libs/excel";
 export default {
-  components: {
-    Detils
-  },
   data() {
     return {
       filters: {
@@ -768,7 +765,6 @@ export default {
       pageCurrent: 1,
       pageSize: 50,
       tableLoading: false,
-      detilsRow: {},
       modelFilters: false,
       selectionList: [],
       plateList: [],

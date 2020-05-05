@@ -131,7 +131,7 @@ export default {
           _this.tableLoading = false;
           if (res.data.code == 200) {
             _this.listData = res.data.data;
-            _this.pageTotal = res.data.count;
+            _this.pageTotal = res.data.totalCount;
           } else {
             this.$Message.error({
               content: res.data.msg,
