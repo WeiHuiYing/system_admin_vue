@@ -297,11 +297,6 @@ export default {
           width: "200"
         },
         {
-          title: "订单成本占比",
-          key: "orderCostRatio",
-          width: "200"
-        },
-        {
           title: "仓库位置",
           key: "wareCountryName",
           width: "200"
@@ -683,6 +678,11 @@ export default {
         {
           title: "成本占比",
           key: "costRatio",
+          width: "200"
+        },
+        {
+          title: "订单成本占比",
+          key: "orderCostRatio",
           width: "200"
         },
         {
