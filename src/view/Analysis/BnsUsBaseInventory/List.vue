@@ -23,7 +23,7 @@
         </Col>
         <Col :span="4">
           <Upload
-            action="api/BnsUsBaseInventory/import/"
+            action="http://8000.bitcoding.top:8888/api/BnsUsBaseInventory/import/"
             name="excelFile"
             :headers="upHeaders"
             accept=".xls, .xlsx"

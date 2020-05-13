@@ -14,7 +14,7 @@
         </Col>
         <Col :span="4">
           <Upload
-            action="/api/FinancialStatement/ImportDHCoust"
+            action="http://8000.bitcoding.top:8888/api/FinancialStatement/ImportDHCoust"
             name="excelFile"
             :headers="upHeaders"
             accept=".xls, .xlsx"

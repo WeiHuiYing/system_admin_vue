@@ -11,7 +11,7 @@
             </FormItem>
             <FormItem>
               <Upload
-                :action="'/api/FinancialStatement/ImportAliLoan?shopName='+upData.shopName"
+                :action="'http://8000.bitcoding.top:8888/api/FinancialStatement/ImportAliLoan?shopName='+upData.shopName"
                 name="excelFile"
                 :headers="upHeaders"
                 accept=".xls, .xlsx"

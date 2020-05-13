@@ -36,7 +36,7 @@
         </Col>
         <Col :span="4">
           <Upload
-            action="/api/FinancialStatement/ImportRepeatCust"
+            action="http://8000.bitcoding.top:8888/api/FinancialStatement/ImportRepeatCust"
             name="excelFile"
             :headers="upHeaders"
             accept=".xls, .xlsx"
