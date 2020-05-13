@@ -5,8 +5,28 @@
         <Col :span="20">
           <Form ref="formInline" label-position="right" :label-width="100" inline>
             <FormItem label="平台">
-              <Select v-model="filters.plateName" style="width:200px" clearable>
+              <Select
+                v-model="filters.plateform"
+                @on-change="changePlate"
+                style="width:200px"
+                clearable
+              >
                 <Option v-for="(item,index) in plateList" :value="item" :key="index">{{ item }}</Option>
+              </Select>
+            </FormItem>
+            <FormItem prop="storeName" label="店铺">
+              <Select
+                :disabled="filters.plateform == ''? true : false"
+                v-model="filters.storeName"
+                clearable
+                style="width:200px"
+              >
+                <Option
+                  v-for="(item,index) in shopList"
+                  :key="index"
+                  :label="item"
+                  :value="item"
+                >{{item}}</Option>
               </Select>
             </FormItem>
             <FormItem>
@@ -55,6 +75,7 @@
 <script>
 import {
   GetRepeatCustList as getList,
+  GetShop,
   GetPlateform as getPlateform
 } from "@/api/Order";
 import store from "@/store";
@@ -62,10 +83,12 @@ export default {
   data() {
     return {
       filters: {
-        plateName: ""
+        plateform: "",
+        storeName: ""
       },
       listData: [],
       plateList: [],
+      shopList: [],
       uploadLoading: false,
       upHeaders: {
         Authorization: "Bearer " + store.state.user.token
@@ -114,11 +137,19 @@ export default {
     loadData() {
       let _this = this;
       let filtersQuery = [];
-      if (_this.filters.plateName != "") {
+      if (_this.filters.plateform != "") {
         filtersQuery.push({
-          key: "plateName",
+          key: "plateform",
           binaryop: "eq",
-          value: _this.filters.plateName,
+          value: _this.filters.plateform,
+          andorop: "and"
+        });
+      }
+      if (_this.filters.storeName != "") {
+        filtersQuery.push({
+          key: "storeName",
+          binaryop: "eq",
+          value: _this.filters.storeName,
           andorop: "and"
         });
       }
@@ -161,6 +192,16 @@ export default {
               closable: true
             });
           }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    changePlate() {
+      let _this = this;
+      GetShop(_this.filters.plateform)
+        .then(res => {
+          _this.shopList = res.data;
         })
         .catch(err => {
           console.log(err);
