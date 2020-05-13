@@ -404,7 +404,7 @@ export default {
 };
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .content-main {
   .content-header {
     padding: 5px;
