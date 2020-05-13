@@ -195,7 +195,7 @@ export default {
 };
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .info-warp {
   .info-item {
     font-size: 14px;

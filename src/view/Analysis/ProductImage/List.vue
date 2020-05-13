@@ -4,7 +4,7 @@
       <Row>
         <Col :span="12">
           <Upload
-            action="/api/FinancialStatement/productTrans"
+            action="http://8000.bitcoding.top:8888/api/FinancialStatement/productTrans"
             name="excelFile"
             :headers="upHeaders"
             accept=".xls, .xlsx"
