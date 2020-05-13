@@ -26,12 +26,13 @@ export default {
   ChannelLevelSalesCount: 'ChannelLevelSalesCount',
   Order: 'Order',
   LogisticsQuery: 'LogisticsQuery',
-  PayPalList: "PayPalTransactions",
+  PayPalList: 'PayPalTransactions',
   AliexpressList: 'AliexpressInformation',
-  AmazonList: "AmazonTransactions",
-  DongHengList: "DongHengCost",
-  RepeatPurchaseList: "RepeatPurchaseList",
-  FinancialSummaryList: "FinancialSummary",
-  UsUiceNomalSkuQty: "UsUiceNomalSkuQty",
-  UsUiceNomalSkuQty_page: "UsUiceNomalSkuQty"
+  AmazonList: 'AmazonTransactions',
+  DongHengList: 'DongHengCost',
+  RepeatPurchaseList: 'RepeatPurchaseList',
+  FinancialSummaryList: 'FinancialSummary',
+  UsUiceNomalSkuQty: 'UsUiceNomalSkuQty',
+  UsUiceNomalSkuQty_page: 'UsUiceNomalSkuQty',
+  ProductImage_page: 'ProductImage'
 }
