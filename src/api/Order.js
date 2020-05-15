@@ -72,6 +72,14 @@ export const GetRepeatCustList = (data) => {
     data,
   })
 }
+// 复购客户导出数据
+export const ExportRepeatCust = (data) => {
+  return axios.request({
+    url: 'api/FinancialStatement/ExportRepeatCust',
+    method: 'POST',
+    data,
+  })
+}
 
 // 财务报表
 export const GetFinancialStatement = (data) => {

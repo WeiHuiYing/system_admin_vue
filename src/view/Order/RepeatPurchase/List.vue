@@ -34,7 +34,7 @@
             </FormItem>
           </Form>
         </Col>
-        <Col :span="4">
+        <Col :span="2">
           <Upload
             action="http://8000.bitcoding.top:8888/api/FinancialStatement/ImportRepeatCust"
             name="excelFile"
@@ -45,6 +45,9 @@
           >
             <Button :loading="uploadLoading">导入复购客户</Button>
           </Upload>
+        </Col>
+        <Col :span="2">
+          <Button @click="exprotData()" type="primary">导出复购客户</Button>
         </Col>
       </Row>
     </div>
@@ -66,6 +69,7 @@
           show-total
           show-elevator
           show-sizer
+          :page-size-opts="[100,200,500,1000]"
         ></Page>
       </div>
     </div>
@@ -76,7 +80,8 @@
 import {
   GetRepeatCustList as getList,
   GetShop,
-  GetPlateform as getPlateform
+  GetPlateform as getPlateform,
+  ExportRepeatCust
 } from "@/api/Order";
 import store from "@/store";
 export default {
@@ -129,30 +134,14 @@ export default {
       ],
       pageTotal: 1,
       pageCurrent: 1,
-      pageSize: 10,
+      pageSize: 100,
       tableLoading: false
     };
   },
   methods: {
     loadData() {
       let _this = this;
-      let filtersQuery = [];
-      if (_this.filters.plateform != "") {
-        filtersQuery.push({
-          key: "plateform",
-          binaryop: "eq",
-          value: _this.filters.plateform,
-          andorop: "and"
-        });
-      }
-      if (_this.filters.storeName != "") {
-        filtersQuery.push({
-          key: "storeName",
-          binaryop: "eq",
-          value: _this.filters.storeName,
-          andorop: "and"
-        });
-      }
+      let filtersQuery = _this.filtersObj();
       let data = {
         pageNum: _this.pageCurrent,
         pageSize: _this.pageSize,
@@ -178,6 +167,27 @@ export default {
           _this.tableLoading = false;
           console.log(err);
         });
+    },
+    filtersObj() {
+      let _this = this;
+      let filtersQuery = [];
+      if (_this.filters.plateform != "") {
+        filtersQuery.push({
+          key: "plateform",
+          binaryop: "eq",
+          value: _this.filters.plateform,
+          andorop: "and"
+        });
+      }
+      if (_this.filters.storeName != "") {
+        filtersQuery.push({
+          key: "storeName",
+          binaryop: "eq",
+          value: _this.filters.storeName,
+          andorop: "and"
+        });
+      }
+      return filtersQuery;
     },
     plateLoad() {
       let _this = this;
@@ -233,6 +243,39 @@ export default {
           closable: true
         });
       }
+    },
+    // 导出复购数据
+    exprotData() {
+      let data = {};
+      let _this = this;
+      this.$Spin.show();
+      let filterQuery = _this.filtersObj();
+      data = {
+        query: filterQuery
+      };
+      ExportRepeatCust(data).then(res => {
+        const content = res;
+        const blob = new Blob([content.data], {
+          type: "application/vnd.ms-excel"
+        });
+        const fileName = "复购客户.xlsx";
+        if ("download" in document.createElement("a")) {
+          // 非IE下载
+          const elink = document.createElement("a");
+          elink.download = fileName;
+          elink.style.display = "none";
+          elink.href = URL.createObjectURL(blob);
+          console.log(elink);
+          document.body.appendChild(elink);
+          elink.click();
+          URL.revokeObjectURL(elink.href); // 释放 URL对象
+          document.body.removeChild(elink);
+        } else {
+          // IE10+下载
+          navigator.msSaveBlob(blob, fileName);
+        }
+        this.$Spin.hide();
+      });
     }
   },
   mounted() {
