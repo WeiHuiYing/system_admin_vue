@@ -10,6 +10,8 @@
             accept=".xls, .xlsx"
             :show-upload-list="false"
             :on-success="handleSuccess"
+            :before-upload="handleBefore"
+            :disabled="uploadLoading"
           >
             <Button :loading="uploadLoading" type="primary">导入SKU</Button>
           </Upload>
@@ -66,6 +68,7 @@ export default {
         let _this = this;
         _this.listData = response.data;
         _this.fileUrl = response.url;
+        _this.uploadLoading = false;
         this.$Message.info({
           content: "上传成功",
           duration: 10,
@@ -78,6 +81,10 @@ export default {
           closable: true
         });
       }
+    },
+    handleBefore() {
+      let _this = this;
+      _this.uploadLoading = true;
     }
   }
 };
