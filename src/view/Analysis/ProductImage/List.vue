@@ -17,8 +17,7 @@
           </Upload>
         </Col>
         <Col style="text-align:right" :span="12">
-          <a
-            v-if="fileUrl !=''"
+          <a v-if="fileUrl !=''"
             :href="'http://8000.bitcoding.top:8888/'+fileUrl"
             target="_blank"
             download
@@ -84,6 +83,7 @@ export default {
     },
     handleBefore() {
       let _this = this;
+	  _this.fileUrl = "";
       _this.uploadLoading = true;
     }
   }
