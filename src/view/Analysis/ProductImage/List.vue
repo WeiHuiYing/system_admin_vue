@@ -17,11 +17,13 @@
           </Upload>
         </Col>
         <Col style="text-align:right" :span="12">
-          <a v-if="fileUrl !=''"
-            :href="'http://8000.bitcoding.top:8888/'+fileUrl"
+          <Button
+            v-if="fileUrl !=''"
+            :to="'http://8000.bitcoding.top:8888/'+fileUrl"
             target="_blank"
-            download
-          >导出SKU</a>
+            icon="ios-download-outline"
+            type="primary"
+          >导出SKU</Button>
         </Col>
       </Row>
     </div>
@@ -83,7 +85,7 @@ export default {
     },
     handleBefore() {
       let _this = this;
-	  _this.fileUrl = "";
+      _this.fileUrl = "";
       _this.uploadLoading = true;
     }
   }
