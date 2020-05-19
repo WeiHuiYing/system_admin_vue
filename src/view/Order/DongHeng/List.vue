@@ -41,6 +41,8 @@
           :current="pageCurrent"
           @on-change="changePage"
           @on-page-size-change="changePageSize"
+          :page-size="pageSize"
+          :page-size-opts="[100,200,300,400,500]"
           show-total
           show-elevator
           show-sizer
@@ -80,7 +82,7 @@ export default {
       ],
       pageTotal: 1,
       pageCurrent: 1,
-      pageSize: 10,
+      pageSize: 100,
       tableLoading: false
     };
   },

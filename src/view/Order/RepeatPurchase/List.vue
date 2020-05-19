@@ -66,10 +66,11 @@
           :current="pageCurrent"
           @on-change="changePage"
           @on-page-size-change="changePageSize"
+          :page-size="pageSize"
+          :page-size-opts="[100,200,300,400,500]"
           show-total
           show-elevator
           show-sizer
-          :page-size-opts="[100,200,500,1000]"
         ></Page>
       </div>
     </div>
