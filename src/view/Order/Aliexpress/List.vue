@@ -63,7 +63,8 @@ export default {
         },
         {
           title: "放款时间",
-          key: "fkDATE"
+          key: "fkDATE",
+          sortable: true
         },
         {
           title: "业务类型",

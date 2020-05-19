@@ -45,7 +45,8 @@ export default {
         },
         {
           title: "创建时间",
-          key: "createDate"
+          key: "createDate",
+          sortable: true
         },
         {
           title: "操作",

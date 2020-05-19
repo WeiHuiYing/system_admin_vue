@@ -126,7 +126,8 @@ export default {
         },
         {
           title: "付款时间",
-          key: "fkDate"
+          key: "fkDate",
+          sortable: true
         },
         {
           title: "付款类型",

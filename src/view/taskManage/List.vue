@@ -72,11 +72,13 @@ export default {
         },
         {
           title: "创建时间",
-          key: "createDate"
+          key: "createDate",
+          sortable: true
         },
         {
           title: "开始运行时间",
-          key: "beginTime"
+          key: "beginTime",
+          sortable: true
         },
         {
           title: "结束运行时间",

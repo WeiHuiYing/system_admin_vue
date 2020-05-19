@@ -75,7 +75,8 @@ export default {
         },
         {
           title: "交易创建时间",
-          key: "createDate"
+          key: "createDate",
+          sortable: true
         },
         {
           title: "店铺",
@@ -83,15 +84,18 @@ export default {
         },
         {
           title: "交易到期时间",
-          key: "availableDate"
+          key: "availableDate",
+          sortable: true
         },
         {
           title: "交易结束时间",
-          key: "endDate"
+          key: "endDate",
+          sortable: true
         },
         {
           title: "交易开始时间",
-          key: "startDate"
+          key: "startDate",
+          sortable: true
         },
         {
           title: "操作",

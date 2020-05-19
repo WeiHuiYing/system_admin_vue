@@ -81,11 +81,13 @@ export default {
         },
         {
           title: "添加时间",
-          key: "addTime"
+          key: "addTime",
+          sortable: true
         },
         {
           title: "预计时间",
-          key: "expectedDate"
+          key: "expectedDate",
+          sortable: true
         },
         {
           title: "用户",

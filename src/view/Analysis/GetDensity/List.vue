@@ -20,7 +20,13 @@
             ></DatePicker>
           </FormItem>
           <FormItem label="商品款式">
-            <Select @on-change="filtersStyle" v-model="filters.type" multiple clearable style="width:200px">
+            <Select
+              @on-change="filtersStyle"
+              v-model="filters.type"
+              multiple
+              clearable
+              style="width:200px"
+            >
               <Option v-for="(item,index) in styleList" :key="index" :value="item">{{item}}</Option>
             </Select>
           </FormItem>
@@ -71,7 +77,7 @@ export default {
     return {
       filters: {
         startTime: "",
-        endTime:"",
+        endTime: "",
         type: []
       },
       tableLoading: false,
@@ -91,7 +97,8 @@ export default {
         {
           title: "总销量",
           key: "total",
-          width: 100
+          width: 100,
+          sortable: true
         },
         {
           title: "13*4",
@@ -257,24 +264,20 @@ export default {
           "YYYY-MM-DD HH:mm:ss"
         );
       } else {
-        data.startTime = dayjs().subtract(7, 'day').format(
-          "YYYY-MM-DD HH:mm:ss"
-        );
-        _this.filters.startTime = dayjs().subtract(7, 'day').format(
-          "YYYY-MM-DD HH:mm:ss"
-        );
+        data.startTime = dayjs()
+          .subtract(7, "day")
+          .format("YYYY-MM-DD HH:mm:ss");
+        _this.filters.startTime = dayjs()
+          .subtract(7, "day")
+          .format("YYYY-MM-DD HH:mm:ss");
       }
       if (_this.filters.endTime !== "") {
         data.endTime = dayjs(_this.filters.endTime).format(
           "YYYY-MM-DD HH:mm:ss"
         );
       } else {
-        data.endTime = dayjs().format(
-          "YYYY-MM-DD HH:mm:ss"
-        );
-        _this.filters.endTime = dayjs().format(
-          "YYYY-MM-DD HH:mm:ss"
-        );
+        data.endTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
+        _this.filters.endTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
       }
       if (!dayjs(data.endTime).isAfter(dayjs(data.startTime))) {
         this.$Message.error({
@@ -417,7 +420,11 @@ export default {
       let titleArr = [];
       let keyArr = [];
       let columnsArr = [];
-      _this.listColums.filter((item, index) => { return index != 0; }).forEach(item => {
+      _this.listColums
+        .filter((item, index) => {
+          return index != 0;
+        })
+        .forEach(item => {
           if (item.children) {
             item.children.forEach(child => {
               let children = {};
@@ -430,11 +437,11 @@ export default {
           }
         });
       titleArr = columnsArr.map(item => {
-        return item.title
-      })
+        return item.title;
+      });
       keyArr = columnsArr.map(item => {
-        return item.key
-      })
+        return item.key;
+      });
       const params = {
         title: titleArr,
         key: keyArr,

@@ -27,7 +27,8 @@ export default {
         {
           title: "邮寄时间",
           key: "postedDate",
-          width: "200"
+          width: "200",
+          sortable: true
         },
         {
           title: "运输方式",
@@ -37,7 +38,8 @@ export default {
         {
           title: "下单时间",
           key: "depositDate",
-          width: "200"
+          width: "200",
+          sortable: true
         },
         {
           title: "促销类型",

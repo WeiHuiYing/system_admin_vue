@@ -85,12 +85,14 @@ export default {
         {
           title: "交易开始时间",
           key: "transactionInfoTransactionInitiationDate",
-          width: "200"
+          width: "200",
+          sortable: true
         },
         {
           title: "交易更新时间",
           key: "transactionInfoTransactionUpdatedDate",
-          width: "200"
+          width: "200",
+          sortable: true
         },
         {
           title: "交易币种",

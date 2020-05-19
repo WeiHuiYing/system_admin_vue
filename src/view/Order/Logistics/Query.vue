@@ -49,11 +49,13 @@ export default {
         },
         {
           title: "发货时间",
-          key: "platformShipTime"
+          key: "platformShipTime",
+          sortable: true
         },
         {
           title: "妥投时间",
-          key: "deliveredTime"
+          key: "deliveredTime",
+          sortable: true
         },
         {
           title: "妥投状态",
@@ -61,15 +63,25 @@ export default {
         },
         {
           title: "停留天数",
-          key: "residenceTime"
+          key: "residenceTime",
+          sortable: true
         },
         {
           title: "运输天数",
-          key: "transportationTime"
+          key: "transportationTime",
+          sortable: true
         },
         {
           title: "物流明细",
-          key: "logisticsDetails"
+          key: "logisticsDetails",
+          type: "expand",
+          render(h, params) {
+            return h("div", {
+              domProps: {
+                innerHTML: params.row.logisticsDetails
+              }
+            });
+          }
         }
       ],
       pageTotal: 1,

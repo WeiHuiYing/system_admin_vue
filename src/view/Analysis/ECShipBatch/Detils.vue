@@ -177,7 +177,8 @@ export default {
         },
         {
           title: "产品数量",
-          key: "tppQuantity"
+          key: "tppQuantity",
+          sortable: true
         },
         {
           title: "重量（kg）",
@@ -215,7 +216,8 @@ export default {
         },
         {
           title: "产品付款时间",
-          key: "opRefPaydate"
+          key: "opRefPaydate",
+          sortable: true
         },
         {
           title: "总重量",
