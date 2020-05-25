@@ -50,6 +50,24 @@ export const getShipList = data => {
     data
   });
 };
+// 头程出货单
+export const GetECFbaHead = data => {
+  return axios.request({
+    url: "api/ECHeadTrip/GetECFbaHeadTripLinesPage",
+    method: "POST",
+    data
+  });
+};
+// 头程出货单导出
+export const ExportECFbaHead = data => {
+  return axios.request({
+    url: "api/ECHeadTrip/ExportECHeadTripLines",
+    method: "POST",
+    data
+  });
+};
+
+
 
 // 添加头层入库单
 export const addShip = data => {
