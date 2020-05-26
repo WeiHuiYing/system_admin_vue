@@ -3,8 +3,8 @@
     <Row class="search-con search-con-top">
       <Col :span="23">
         <Form ref="formInline" label-position="right" :label-width="100" inline>
-          <FormItem label="子SKU">
-            <Input clearable class="search-input" v-model="filters.itemSku" />
+          <FormItem label="订单号">
+            <Input placeholder="请输入搜索订单号" clearable v-model="filters.ordercode" />
           </FormItem>
           <FormItem prop="startTime" label="制单开始时间">
             <DatePicker
@@ -22,14 +22,12 @@
               style="width: 200px"
             ></DatePicker>
           </FormItem>
-          <FormItem label="店铺">
-            <Select v-model="filters.shopName" style="width:200px" clearable>
-              <Option v-for="(item,index) in shopList" :value="item" :key="index">{{ item }}</Option>
-            </Select>
-          </FormItem>
           <FormItem>
-            <Button @click="loadData()" class="search-btn" type="primary">
+            <Button style="margin-right:5px" @click="loadData()" class="search-btn" type="primary">
               <Icon type="search" />&nbsp;&nbsp;搜索
+            </Button>
+            <Button @click="filtersData()" class="search-btn" type="primary">
+              <Icon type="search" />&nbsp;&nbsp;更多筛选
             </Button>
           </FormItem>
         </Form>
@@ -62,21 +60,75 @@
         ></Page>
       </div>
     </div>
+
+    <Modal
+      title="筛选"
+      :mask-closable="false"
+      v-model="modelFilters"
+      width="90%"
+      scrollable
+      footer-hide
+    >
+      <Form ref="formInline" label-position="right" :label-width="100" inline>
+        <FormItem label="订单号">
+          <Input placeholder="请输入搜索订单号" clearable v-model="filters.ordercode" />
+        </FormItem>
+        <FormItem label="公司">
+          <Input placeholder="请输入搜索公司" clearable v-model="filters.companyName" />
+        </FormItem>
+        <FormItem label="发货仓">
+          <Input placeholder="请输入发货仓" clearable v-model="filters.warehouse" />
+        </FormItem>
+        <FormItem label="目的仓">
+          <Input placeholder="请输入目的仓" clearable v-model="filters.towarehouse" />
+        </FormItem>
+        <FormItem prop="startTime" label="制单开始时间">
+          <DatePicker
+            v-model="filters.startTime"
+            type="datetime"
+            placeholder="请选择开始时间"
+            style="width: 200px"
+          ></DatePicker>
+        </FormItem>
+        <FormItem prop="endTime" label="制单结束时间">
+          <DatePicker
+            v-model="filters.endTime"
+            type="datetime"
+            placeholder="请选择结束时间"
+            style="width: 200px"
+          ></DatePicker>
+        </FormItem>
+        <FormItem label="店铺">
+          <Select v-model="filters.shopName" style="width:200px" clearable>
+            <Option v-for="(item,index) in shopList" :value="item" :key="index">{{ item }}</Option>
+          </Select>
+        </FormItem>
+        <div style="text-align:right;">
+          <Button @click="filtersLoad()" class="search-btn" type="primary">搜索</Button>
+        </div>
+      </Form>
+    </Modal>
   </div>
 </template>
 
 <script>
-import { GetECFbaHead, ExportECFbaHead } from "@/api/Analysis";
-import { GetShop as getShopList } from "@/api/Order";
+import {
+  GetECFbaHead,
+  ExportECFbaHead,
+  ECGetShop as GetShop
+} from "@/api/Analysis";
 import dayjs from "dayjs";
 export default {
   data() {
     return {
       filters: {
-        itemSku: "",
+        ordercode: "",
         shopName: "",
         startTime: "",
-        endTime: ""
+        endTime: "",
+        companyName: "",
+        warehouse: "",
+        towarehouse: ""
       },
       shopList: [],
       tableLoading: false,
@@ -160,7 +212,8 @@ export default {
       ],
       pageCurrent: 1,
       pageTotal: 1,
-      pageSize: 100
+      pageSize: 100,
+      modelFilters: false
     };
   },
   methods: {
@@ -230,19 +283,52 @@ export default {
           andorop: "and"
         });
       }
-      if (_this.filters.itemSku !== "") {
+      if (_this.filters.ordercode !== "") {
         filtersquery.push({
-          key: "itemsku",
+          key: "ordercode",
           binaryop: "like",
-          value: _this.filters.itemSku,
+          value: _this.filters.ordercode,
+          andorop: "and"
+        });
+      }
+      if (_this.filters.companyName !== "") {
+        filtersquery.push({
+          key: "companyName",
+          binaryop: "like",
+          value: _this.filters.companyName,
+          andorop: "and"
+        });
+      }
+      if (_this.filters.warehouse !== "") {
+        filtersquery.push({
+          key: "warehouse",
+          binaryop: "like",
+          value: _this.filters.warehouse,
+          andorop: "and"
+        });
+      }
+      if (_this.filters.towarehouse !== "") {
+        filtersquery.push({
+          key: "towarehouse",
+          binaryop: "like",
+          value: _this.filters.towarehouse,
           andorop: "and"
         });
       }
       return filtersquery;
     },
+    filtersData() {
+      let _this = this;
+      _this.modelFilters = true;
+    },
+    filtersLoad() {
+      let _this = this;
+      _this.modelFilters = false;
+      _this.loadData();
+    },
     loadShop() {
       let _this = this;
-      getShopList()
+      GetShop()
         .then(res => {
           if (res.status == 200) {
             _this.shopList = res.data;

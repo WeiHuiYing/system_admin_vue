@@ -63,10 +63,17 @@ export const ExportECFbaHead = data => {
   return axios.request({
     url: "api/ECHeadTrip/ExportECHeadTripLines",
     method: "POST",
-    data
+    data,
+    responseType: "blob"
   });
 };
-
+// 头程出货单 店铺筛选的店铺列表
+export const ECGetShop = () => {
+  return axios.request({
+    url: "api/ECHeadTrip/GetShop",
+    method: "GET",
+  });
+};
 
 
 // 添加头层入库单
