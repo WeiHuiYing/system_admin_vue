@@ -117,7 +117,8 @@ export default {
         warehouseCode: "",
         startTime: "",
         endTime: "",
-        sku: ""
+        sku: "",
+        plateform: ""
       },
       listData: [],
       listColumns: [
