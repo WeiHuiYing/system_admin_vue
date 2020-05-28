@@ -165,3 +165,43 @@ export const UsUiceNomalSkuQty = data => {
     data
   });
 };
+
+
+// 财务订单合计报表
+export const OrderCostTotal = data => {
+  return axios.request({
+    url: "api/FinancialStatement/OrderCostTotal",
+    method: "POST",
+    data
+  });
+};
+
+
+// 导出财务订单合计报表
+export const ExportOrderCostTotal = data => {
+  return axios.request({
+    url: "api/FinancialStatement/ExportOrderCostTotal",
+    method: "POST",
+    data,
+    responseType: "blob"
+  });
+};
+
+
+//  SKU销量明细报表
+export const SkuSaleQuery = data => {
+  return axios.request({
+    url: "api/FinancialStatement/SkuSaleQuery",
+    method: "POST",
+    data
+  });
+};
+//  导出SKU销量明细报表
+export const ExportSkuSaleQuery = data => {
+  return axios.request({
+    url: "api/FinancialStatement/ExportSkuSaleQuery",
+    method: "POST",
+    data,
+    responseType: "blob"
+  });
+};

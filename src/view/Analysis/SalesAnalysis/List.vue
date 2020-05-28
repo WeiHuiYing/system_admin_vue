@@ -121,7 +121,7 @@ export default {
       let filtersquery = [];
       let filtersSku = {};
       let filtersWare = {};
-      if (!_this.filters.singleSku == "") {
+      if (_this.filters.singleSku && !_this.filters.singleSku == "") {
         filtersSku = {
           key: "singleSku",
           binaryop: "like",
@@ -130,7 +130,7 @@ export default {
         };
         filtersquery.push(filtersSku);
       }
-      if (!_this.filters.warehouseId == "") {
+      if (_this.filters.warehouseId && !_this.filters.warehouseId == "") {
         filtersWare = {
           key: "warehouseId",
           binaryop: "eq",

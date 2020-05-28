@@ -9,13 +9,9 @@ export default {
   taskManage: 'TaskManage',
   menuManage: 'menuManage',
   Warehouse: 'Warehouse',
-  BnsUsBaseInventory: 'BnsUsBaseInventory',
   BnsUsBaseInventory_page: 'BnsUsBaseInventory',
-  omsAnsList: 'OmsAnalysis',
   omsAnsList_page: 'OmsAnalysis',
-  UsTagTypeInventory: 'UsTagTypeInventory',
   UsTagTypeInventory_page: 'UsTagTypeInventory',
-  ECShipBatch: 'ECShipBatch',
   ECShipBatch_page: 'ECShipBatch',
   ECShipOrder: 'ECShipOrder',
   Analysis: 'SalesClass',
@@ -36,5 +32,7 @@ export default {
   FinancialSummaryList: 'FinancialSummary',
   UsUiceNomalSkuQty: 'UsUiceNomalSkuQty',
   UsUiceNomalSkuQty_page: 'UsUiceNomalSkuQty',
-  ProductImage_page: 'ProductImage'
+  ProductImage_page: 'ProductImage',
+  FinanceTotal: 'FinanceOrderTotal',
+  SkuSaleQuery: 'SkuSaleQuery'
 }

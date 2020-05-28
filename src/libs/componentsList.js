@@ -11,22 +11,6 @@ export const componentList = [{
     name: 'Warehouse'
   },
   {
-    name: 'BnsUsBaseInventory'
-  },
-  {
-    name: 'ECShipBatch'
-  },
-  {
-    name: 'UsTagTypeInventory'
-  },
-  {
-    name: 'omsAnsList'
-  },
-  {
-    name: 'UsUiceNomalSkuQty'
-  },
-
-  {
     component: 'view/User/List.vue',
     name: 'userManage'
   },
@@ -105,6 +89,14 @@ export const componentList = [{
   {
     component: 'view/Analysis/ECShipOrder/List.vue',
     name: 'ECShipOrder'
+  },
+  {
+    component: 'view/Analysis/FinanceTotal/List.vue',
+    name: 'FinanceTotal'
+  },
+  {
+    component: 'view/Analysis/SkuSaleQuery/List.vue',
+    name: 'SkuSaleQuery'
   },
   {
     component: 'view/Order/Logistics/Query.vue',

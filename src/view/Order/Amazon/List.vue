@@ -134,7 +134,10 @@ export default {
     loadData() {
       let _this = this;
       let filtersQuery = [];
-      if (_this.filters.reportRequestId != "") {
+      if (
+        _this.filters.reportRequestId &&
+        _this.filters.reportRequestId != ""
+      ) {
         filtersQuery.push({
           key: "reportRequestId",
           binaryop: "eq",

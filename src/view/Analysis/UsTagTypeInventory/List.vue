@@ -78,7 +78,7 @@ export default {
       if (!_this.pageCurrent) _this.pageCurrent = 1;
       let filtersquery = [];
       let filtersSku = {};
-      if (!_this.filters.productSku == "") {
+      if (_this.filters.productSku && !_this.filters.productSku == "") {
         filtersSku = {
           key: "productSku",
           binaryop: "eq",

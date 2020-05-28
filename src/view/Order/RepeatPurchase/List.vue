@@ -173,7 +173,7 @@ export default {
     filtersObj() {
       let _this = this;
       let filtersQuery = [];
-      if (_this.filters.plateform != "") {
+      if (_this.filters.plateform && _this.filters.plateform != "") {
         filtersQuery.push({
           key: "plateform",
           binaryop: "eq",
@@ -181,7 +181,7 @@ export default {
           andorop: "and"
         });
       }
-      if (_this.filters.storeName != "") {
+      if (_this.filters.storeName && _this.filters.storeName != "") {
         filtersQuery.push({
           key: "storeName",
           binaryop: "eq",

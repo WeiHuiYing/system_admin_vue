@@ -191,7 +191,10 @@ export default {
       let _this = this;
       let filtersquery = [];
       let filtersCode = {};
-      if (!_this.filters.omsReceivingCode == "") {
+      if (
+        _this.filters.omsReceivingCode &&
+        _this.filters.omsReceivingCode != ""
+      ) {
         filtersCode = {
           key: "omsReceivingCode",
           binaryop: "eq",

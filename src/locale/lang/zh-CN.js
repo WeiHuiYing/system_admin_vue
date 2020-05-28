@@ -8,13 +8,9 @@ export default {
   companyManage: '组织结构',
   taskManage: '任务管理',
   menuManage: '菜单管理',
-  BnsUsBaseInventory: '美国仓仓底维护',
   BnsUsBaseInventory_page: '美国仓仓底维护',
-  omsAnsList: '美国仓仓底维护',
   omsAnsList_page: 'Oms入库单',
-  UsTagTypeInventory: '美国仓类型报表',
   UsTagTypeInventory_page: '美国仓类型报表',
-  ECShipBatch: '头程出库单',
   ECShipBatch_page: '头程出库单',
   ECShipOrder: '头程出货单',
   Analysis: '销售类报表',
@@ -36,5 +32,7 @@ export default {
   FinancialSummaryList: '财务汇总报表',
   UsUiceNomalSkuQty: '美国仓剩余库存报表',
   UsUiceNomalSkuQty_page: '美国仓剩余库存报表',
-  ProductImage_page: '产品图片'
+  ProductImage_page: '产品图片',
+  FinanceTotal: '财务订单合计报表',
+  SkuSaleQuery: 'SKU销售明细'
 }

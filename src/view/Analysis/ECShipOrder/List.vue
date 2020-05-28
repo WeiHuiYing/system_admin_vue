@@ -250,7 +250,7 @@ export default {
     filtersObj() {
       let _this = this;
       let filtersquery = [];
-      if (_this.filters.startTime !== "" && _this.filters.endTime !== "") {
+      if (_this.filters.startTime != "" && _this.filters.endTime != "") {
         if (
           !dayjs(_this.filters.endTime).isAfter(dayjs(_this.filters.startTime))
         ) {
@@ -275,7 +275,7 @@ export default {
           });
         }
       }
-      if (_this.filters.shopName !== "") {
+      if (_this.filters.shopName && _this.filters.shopName != "") {
         filtersquery.push({
           key: "storename",
           binaryop: "eq",
@@ -283,7 +283,7 @@ export default {
           andorop: "and"
         });
       }
-      if (_this.filters.ordercode !== "") {
+      if (_this.filters.ordercode && _this.filters.ordercode != "") {
         filtersquery.push({
           key: "ordercode",
           binaryop: "like",
@@ -291,7 +291,7 @@ export default {
           andorop: "and"
         });
       }
-      if (_this.filters.companyName !== "") {
+      if (_this.filters.companyName && _this.filters.companyName != "") {
         filtersquery.push({
           key: "companyName",
           binaryop: "like",
@@ -299,7 +299,7 @@ export default {
           andorop: "and"
         });
       }
-      if (_this.filters.warehouse !== "") {
+      if (_this.filters.warehouse && _this.filters.warehouse != "") {
         filtersquery.push({
           key: "warehouse",
           binaryop: "like",
@@ -307,7 +307,7 @@ export default {
           andorop: "and"
         });
       }
-      if (_this.filters.towarehouse !== "") {
+      if (_this.filters.towarehouse && _this.filters.towarehouse != "") {
         filtersquery.push({
           key: "towarehouse",
           binaryop: "like",

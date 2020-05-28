@@ -90,7 +90,7 @@ export default {
     loadData() {
       let _this = this;
       let filtersQuery = [];
-      if (_this.filters.productSKU != "") {
+      if (_this.filters.productSKU && _this.filters.productSKU != "") {
         filtersQuery.push({
           key: "productSKU",
           binaryop: "eq",

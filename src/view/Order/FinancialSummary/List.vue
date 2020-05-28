@@ -831,7 +831,7 @@ export default {
         filterQuery = filterQuery.concat(filterPaid);
       }
 
-      if (_this.filters.productSku != "") {
+      if (_this.filters.productSku && _this.filters.productSku != "") {
         let SkuObj = {
           key: "productSku",
           binaryop: "like",
@@ -840,7 +840,10 @@ export default {
         };
         filterQuery.push(SkuObj);
       }
-      if (_this.filters.procutCategoryName != "") {
+      if (
+        _this.filters.procutCategoryName &&
+        _this.filters.procutCategoryName != ""
+      ) {
         let CategoryObj = {
           key: "procutCategoryName",
           binaryop: "eq",
@@ -849,7 +852,10 @@ export default {
         };
         filterQuery.push(CategoryObj);
       }
-      if (_this.filters.procutCategoryName1 != "") {
+      if (
+        _this.filters.procutCategoryName1 &&
+        _this.filters.procutCategoryName1 != ""
+      ) {
         let Category1Obj = {
           key: "procutCategoryName1",
           binaryop: "like",
@@ -859,7 +865,7 @@ export default {
         filterQuery.push(Category1Obj);
       }
 
-      if (_this.filters.orderType != "") {
+      if (_this.filters.orderType && _this.filters.orderType != "") {
         let orderTypeObj = {
           key: "orderType",
           binaryop: "eq",
@@ -868,7 +874,7 @@ export default {
         };
         filterQuery.push(orderTypeObj);
       }
-      if (_this.filters.status != "") {
+      if (_this.filters.status && _this.filters.status != "") {
         let statusObj = {
           key: "status",
           binaryop: "eq",
@@ -877,7 +883,7 @@ export default {
         };
         filterQuery.push(statusObj);
       }
-      if (_this.filters.plateform != "") {
+      if (_this.filters.plateform && _this.filters.plateform != "") {
         let plateObj = {
           key: "plateform",
           binaryop: "eq",
@@ -886,7 +892,7 @@ export default {
         };
         filterQuery.push(plateObj);
       }
-      if (_this.filters.wareHouseDesc != "") {
+      if (_this.filters.wareHouseDesc && _this.filters.wareHouseDesc != "") {
         let wareObj = {
           key: "wareHouseDesc",
           binaryop: "eq",
@@ -895,7 +901,7 @@ export default {
         };
         filterQuery.push(wareObj);
       }
-      if (_this.filters.storeName != "") {
+      if (_this.filters.storeName && _this.filters.storeName != "") {
         let storeObj = {
           key: "storeName",
           binaryop: "eq",
