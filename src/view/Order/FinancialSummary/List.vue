@@ -134,9 +134,9 @@
             <Option
               v-for="(item,index) in wareList"
               :key="index"
-              :label="item.company"
-              :value="item.company"
-            >{{item.company}}</Option>
+              :label="item.warehouseCode"
+              :value="item.warehouseCode"
+            >{{item.warehouseCode}}</Option>
           </Select>
         </FormItem>
         <FormItem prop="productSku" label="产品信息(sku)">

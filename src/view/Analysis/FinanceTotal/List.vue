@@ -107,9 +107,9 @@
             <Option
               v-for="(item,index) in wareList"
               :key="index"
-              :label="item.company"
+              :label="item.warehouseCode"
               :value="item.warehouseCode"
-            >{{item.company}}</Option>
+            >{{item.warehouseCode}}</Option>
           </Select>
         </FormItem>
         <FormItem prop="startTime" label="创建开始时间">
@@ -199,7 +199,7 @@ export default {
         },
         {
           title: "订单状态",
-          key: "status",
+          key: "status_text",
           width: "200"
         },
         {
@@ -239,6 +239,13 @@ export default {
           const resData = res.data;
           _this.tableLoading = false;
           if (resData.code == 200) {
+            resData.data.forEach(item => {
+              this.$store.state.orderStatus.forEach(order => {
+                if (order.label == item.status) {
+                  item.status_text = order.value;
+                }
+              });
+            });
             _this.listData = resData.data;
             _this.pageTotal = resData.totalCount;
           } else {

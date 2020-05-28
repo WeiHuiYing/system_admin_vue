@@ -3,16 +3,19 @@
     <div style="margin:10px 0" class="search-con search-con-top">
       <Row>
         <Col :span="23">
-          <Form ref="formInline" label-position="right" :label-width="100" inline>
+          <Form ref="formInline" label-position="right" :label-width="85" inline>
             <FormItem prop="sku" label="SKU">
-              <Input v-model="filters.sku" placeholder="请输入搜索的sku"></Input>
+              <Input style="width:120px" v-model="filters.sku" placeholder="请输入搜索的sku"></Input>
+            </FormItem>
+            <FormItem prop="refNo" label="参考单号">
+              <Input style="width:120px" v-model="filters.refNo" placeholder="请输入搜索的参考单号"></Input>
             </FormItem>
             <FormItem prop="startTime" label="创建开始时间">
               <DatePicker
                 v-model="filters.startTime"
                 type="datetime"
                 placeholder="请选择开始时间"
-                style="width: 200px"
+                style="width: 120px"
               ></DatePicker>
             </FormItem>
             <FormItem prop="endTime" label="创建结束时间">
@@ -20,11 +23,31 @@
                 v-model="filters.endTime"
                 type="datetime"
                 placeholder="请选择结束时间"
-                style="width: 200px"
+                style="width: 120px"
               ></DatePicker>
             </FormItem>
+            <FormItem prop="plateform" label="平台">
+              <Select
+                v-model="filters.plateform"
+                @on-change="changePlate"
+                clearable
+                style="width:120px"
+              >
+                <Option
+                  v-for="(item,index) in plateList"
+                  :key="index"
+                  :label="item"
+                  :value="item"
+                >{{item}}</Option>
+              </Select>
+            </FormItem>
             <FormItem prop="storeName" label="店铺">
-              <Select v-model="filters.storeName" clearable style="width:150px">
+              <Select
+                :disabled="filters.plateform == ''? true : false"
+                v-model="filters.storeName"
+                clearable
+                style="width:120px"
+              >
                 <Option
                   v-for="(item,index) in shopList"
                   :key="index"
@@ -89,11 +112,12 @@ export default {
   data() {
     return {
       filters: {
-        plateform: "",
+        refNo: "",
         storeName: "",
         warehouseCode: "",
         startTime: "",
-        endTime: ""
+        endTime: "",
+        sku: ""
       },
       listData: [],
       listColumns: [
@@ -106,6 +130,10 @@ export default {
           key: "sku"
         },
         {
+          title: "参考单号",
+          key: "refNo"
+        },
+        {
           title: "数量",
           key: "qty"
         }
@@ -115,7 +143,6 @@ export default {
       pageSize: 100,
       tableLoading: false,
       plateList: [],
-      wareList: [],
       shopList: []
     };
   },
@@ -166,6 +193,24 @@ export default {
         };
         filterQuery.push(storeObj);
       }
+      if (_this.filters.sku && _this.filters.sku != "") {
+        let skuObj = {
+          key: "sku",
+          binaryop: "eq",
+          value: _this.filters.sku,
+          andorop: "and"
+        };
+        filterQuery.push(skuObj);
+      }
+      if (_this.filters.refNo && _this.filters.refNo != "") {
+        let refNoObj = {
+          key: "refNo",
+          binaryop: "eq",
+          value: _this.filters.refNo,
+          andorop: "and"
+        };
+        filterQuery.push(refNoObj);
+      }
       return filterQuery;
     },
     filtersDate(keyString, startTime, endTime) {
@@ -197,9 +242,16 @@ export default {
       }
       return filterQuery;
     },
-    shopLoad() {
+    selectLoad() {
       let _this = this;
-      GetShop()
+      let data = {};
+      GetPlateform().then(res => {
+        _this.plateList = res.data;
+      });
+    },
+    changePlate() {
+      let _this = this;
+      GetShop(_this.filters.plateform)
         .then(res => {
           _this.shopList = res.data;
         })
@@ -251,7 +303,7 @@ export default {
   },
   mounted() {
     this.loadData();
-    this.shopLoad();
+    this.selectLoad();
   }
 };
 </script>
