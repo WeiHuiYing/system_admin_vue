@@ -181,7 +181,7 @@ export default {
       let _this = this;
       let filterQuery = [];
       let filterCreate = _this.filtersDate(
-        "createDate",
+        "createdDate",
         _this.filters.startTime,
         _this.filters.endTime
       );
@@ -212,6 +212,10 @@ export default {
         };
         filterQuery.push(refNoObj);
       }
+      if (filterCreate.length > 0) {
+        filterQuery = filterQuery.concat(filterCreate);
+      }
+      console.log(filterQuery);
       return filterQuery;
     },
     filtersDate(keyString, startTime, endTime) {

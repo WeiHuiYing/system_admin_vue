@@ -63,7 +63,6 @@ export default {
             return item;
           }
         });
-      console.log(treeItem);
       return treeItem;
     },
     loadDeptChildItem(treeData) {

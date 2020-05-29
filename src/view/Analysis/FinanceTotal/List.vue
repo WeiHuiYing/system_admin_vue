@@ -264,10 +264,13 @@ export default {
       let _this = this;
       let filterQuery = [];
       let filterCreate = _this.filtersDate(
-        "createDate",
+        "createdDate",
         _this.filters.startTime,
         _this.filters.endTime
       );
+      if (filterCreate.length > 0) {
+        filterQuery = filterQuery.concat(filterCreate);
+      }
       if (_this.filters.plateform && _this.filters.plateform != "") {
         let plateObj = {
           key: "plateform",
