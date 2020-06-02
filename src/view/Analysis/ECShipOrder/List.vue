@@ -140,6 +140,11 @@ export default {
           width: 150
         },
         {
+          title: "入库单号",
+          key: "inNo",
+          width: 150
+        },
+        {
           title: "服务商单号",
           key: "referenceNo",
           width: 150

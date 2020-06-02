@@ -170,9 +170,9 @@ export const UsUiceNomalSkuQty = data => {
 // 财务订单合计报表
 export const OrderCostTotal = data => {
   return axios.request({
-    url: "api/FinancialStatement/OrderCostTotal",
+    url: "api/FinancialStatement/OrderCostTotal?total=" + data.total,
     method: "POST",
-    data
+    data: data.data
   });
 };
 

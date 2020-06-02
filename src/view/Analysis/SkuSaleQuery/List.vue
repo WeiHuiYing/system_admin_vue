@@ -5,17 +5,17 @@
         <Col :span="23">
           <Form ref="formInline" label-position="right" :label-width="85" inline>
             <FormItem prop="sku" label="SKU">
-              <Input style="width:120px" v-model="filters.sku" placeholder="请输入搜索的sku"></Input>
+              <Input style="width:200px" v-model="filters.sku" placeholder="请输入搜索的sku"></Input>
             </FormItem>
             <FormItem prop="refNo" label="参考单号">
-              <Input style="width:120px" v-model="filters.refNo" placeholder="请输入搜索的参考单号"></Input>
+              <Input style="width:200px" v-model="filters.refNo" placeholder="请输入搜索的参考单号"></Input>
             </FormItem>
             <FormItem prop="startTime" label="创建开始时间">
               <DatePicker
                 v-model="filters.startTime"
                 type="datetime"
                 placeholder="请选择开始时间"
-                style="width: 120px"
+                style="width: 200px"
               ></DatePicker>
             </FormItem>
             <FormItem prop="endTime" label="创建结束时间">
@@ -23,38 +23,8 @@
                 v-model="filters.endTime"
                 type="datetime"
                 placeholder="请选择结束时间"
-                style="width: 120px"
+                style="width: 200px"
               ></DatePicker>
-            </FormItem>
-            <FormItem prop="plateform" label="平台">
-              <Select
-                v-model="filters.plateform"
-                @on-change="changePlate"
-                clearable
-                style="width:120px"
-              >
-                <Option
-                  v-for="(item,index) in plateList"
-                  :key="index"
-                  :label="item"
-                  :value="item"
-                >{{item}}</Option>
-              </Select>
-            </FormItem>
-            <FormItem prop="storeName" label="店铺">
-              <Select
-                :disabled="filters.plateform == ''? true : false"
-                v-model="filters.storeName"
-                clearable
-                style="width:120px"
-              >
-                <Option
-                  v-for="(item,index) in shopList"
-                  :key="index"
-                  :label="item"
-                  :value="item"
-                >{{item}}</Option>
-              </Select>
             </FormItem>
             <FormItem>
               <Button
@@ -64,6 +34,9 @@
                 type="primary"
               >
                 <Icon type="search" />&nbsp;&nbsp;搜索
+              </Button>
+              <Button @click="filtersData()" class="search-btn" type="primary">
+                <Icon type="search" />&nbsp;&nbsp;更多筛选
               </Button>
             </FormItem>
           </Form>
@@ -96,6 +69,73 @@
         ></Page>
       </div>
     </div>
+    <Modal
+      title="筛选"
+      :mask-closable="false"
+      v-model="modelFilters"
+      width="90%"
+      scrollable
+      footer-hide
+    >
+      <Form ref="formInline" label-position="right" :label-width="85" inline>
+        <FormItem prop="sku" label="SKU">
+          <Input style="width:200px" v-model="filters.sku" placeholder="请输入搜索的sku"></Input>
+        </FormItem>
+        <FormItem prop="refNo" label="参考单号">
+          <Input style="width:200px" v-model="filters.refNo" placeholder="请输入搜索的参考单号"></Input>
+        </FormItem>
+        <FormItem prop="startTime" label="创建开始时间">
+          <DatePicker
+            v-model="filters.startTime"
+            type="datetime"
+            placeholder="请选择开始时间"
+            style="width: 200px"
+          ></DatePicker>
+        </FormItem>
+        <FormItem prop="endTime" label="创建结束时间">
+          <DatePicker
+            v-model="filters.endTime"
+            type="datetime"
+            placeholder="请选择结束时间"
+            style="width: 200px"
+          ></DatePicker>
+        </FormItem>
+        <FormItem prop="plateform" label="平台">
+          <Select
+            v-model="filters.plateform"
+            @on-change="changePlate"
+            clearable
+            style="width:200px"
+          >
+            <Option
+              v-for="(item,index) in plateList"
+              :key="index"
+              :label="item"
+              :value="item"
+            >{{item}}</Option>
+          </Select>
+        </FormItem>
+        <FormItem prop="storeName" label="店铺">
+          <Select
+            :disabled="filters.plateform == ''? true : false"
+            v-model="filters.storeName"
+            clearable
+            style="width:200px"
+            multiple
+          >
+            <Option
+              v-for="(item,index) in shopList"
+              :key="index"
+              :label="item"
+              :value="item"
+            >{{item}}</Option>
+          </Select>
+        </FormItem>
+        <div style="text-align:right;">
+          <Button @click="filtersLoad()" class="search-btn" type="primary">搜索</Button>
+        </div>
+      </Form>
+    </Modal>
   </div>
 </template>
 
@@ -143,6 +183,7 @@ export default {
       pageCurrent: 1,
       pageSize: 100,
       tableLoading: false,
+      modelFilters: false,
       plateList: [],
       shopList: []
     };
@@ -177,6 +218,15 @@ export default {
           console.log(err);
         });
     },
+    filtersData() {
+      let _this = this;
+      _this.modelFilters = true;
+    },
+    filtersLoad() {
+      let _this = this;
+      _this.modelFilters = false;
+      _this.loadData();
+    },
     filtersObj() {
       let _this = this;
       let filterQuery = [];
@@ -185,11 +235,19 @@ export default {
         _this.filters.startTime,
         _this.filters.endTime
       );
-      if (_this.filters.storeName && _this.filters.storeName != "") {
+      if (_this.filters.storeName && _this.filters.storeName.length > 0) {
+        let storeName = "";
+        _this.filters.storeName.forEach((item, index) => {
+          if (index == _this.filters.storeName.length - 1) {
+            storeName += "'" + item + "'";
+          } else {
+            storeName += "'" + item + "'" + ",";
+          }
+        });
         let storeObj = {
           key: "storeName",
           binaryop: "eq",
-          value: _this.filters.storeName,
+          value: storeName,
           andorop: "and"
         };
         filterQuery.push(storeObj);
